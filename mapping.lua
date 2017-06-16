@@ -5,6 +5,14 @@ mapperService.exploring = false
 mapperService.locked = "harmonyLocked"
 mapperService.walkingTo = nil
 
+function mapperService.arrived()
+	if mapperService.walkingTo then
+		mapperService.walkingTo = nil
+		Harmony.say("We're here!")
+	end
+end
+registerAnonymousEventHandler("mmapper arrived", "mapperService.arrived")
+
 function mapperService.gotoNextRoom()
 	local areaId = getRoomArea(mmp.currentroom)
 	local roomList = getAreaRooms(areaId)
