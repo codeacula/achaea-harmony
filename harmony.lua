@@ -26,4 +26,3 @@ end
 Harmony.loadFile("keypad.lua")
 Harmony.loadFile("hunting.lua")
 Harmony.loadFile("mapping.lua")
-Harmony.loadFile("ui.lua")
