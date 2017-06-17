@@ -1,7 +1,5 @@
 local mapperService = {}
 
-Harmony.loadFile("room.lua")
-
 mapperService.autoExplore = false
 mapperService.dataname = "harmonyExplored"
 mapperService.exploring = false
