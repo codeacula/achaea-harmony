@@ -1,15 +1,47 @@
 local mapperService = {}
 
+Harmony.loadFile("room.lua")
+
+mapperService.autoExplore = false
 mapperService.dataname = "harmonyExplored"
 mapperService.exploring = false
 mapperService.walkingTo = nil
 
 -- Clears out the room we're walking to
 function mapperService.arrived()
-	if mapperService.walkingTo then
-		mapperService.walkingTo = nil
-		Harmony.say("We're here!")
-	end
+    if mapperService.walkingTo then
+        mapperService.walkingTo = nil
+        Harmony.say("We're here!")
+    end
+end
+
+function mapperService.createRoom(id)
+    id = tonumber(id)
+
+    if not id then return end
+
+    local newRoom = Room.new(id)
+
+    mapperService.rooms[id] = newRoom
+
+    mapperService.saveData()
+
+    return newRoom
+end
+
+function mapperService.exploreNext()
+    if mapperService.autoExplore then
+        tempTimer(.5, mapperService.gotoNextRoom)
+    end
+end
+
+function mapperService.getRoom(id)
+
+    id = tonumber(id)
+
+    if not id then return end
+
+    return mapperService.rooms[id]
 end
 
 -- When autoexploring, sets up going to the next location
@@ -47,12 +79,18 @@ end
 
 -- Shows us all the unexplored rooms in the area
 function mapperService.printUnexploredRooms()
-	local areaId = getRoomArea(mmp.currentroom)
-	local roomList = getAreaRooms(areaId)
+    local areaId = getRoomArea(mmp.currentroom)
+    local roomList = getAreaRooms(areaId)
 
-	local unexploredRooms = {}
+    local unexploredRooms = {}
 
-	table.sort(unexploredRooms, function(t1, t2) return tonumber(t1.id) < tonumber(t2.id) end)
+    for _, id in pairs(roomList) do
+        local theRoom = mapperService.getRoom(id) or mapperService.createRoom(id)
+
+        if theRoom and not theRoom.explored and not theRoom.locked then
+            table.insert(unexploredRooms, { id = id, name = getRoomName(id)})
+        end
+    end
 
 	for _, id in pairs(roomList) do
 		if getRoomUserData(id, mapperService.dataname) == "" then
@@ -60,12 +98,12 @@ function mapperService.printUnexploredRooms()
 		end
 	end
 
-	table.sort(unexploredRooms, function(t1, t2) return tonumber(t1.id) < tonumber(t2.id) end)
+    Harmony.say("Unexplored rooms:")
+    for _, i in ipairs(unexploredRooms) do
+        cecho(string.format("<yellow>%s<reset> - <pink>%s\n", i.id, i.name))
+    end
 
-	Harmony.say("Unexplored rooms:")
-	for _, i in ipairs(unexploredRooms) do
-		cecho(string.format("<yellow>%s<reset> - <pink>%s\n", i.id, i.name))
-	end
+    mapperService.saveData()
 end
 
 -- Locks a room when we are autowalking and the door is locked
@@ -90,25 +128,30 @@ end
 
 -- Turns on/off exploration
 function mapperService.toggleExploring()
-	if mapperService.exploring then
-		Harmony.say("Will not mark explored rooms.")
-		mapperService.exploring = false
-	else
-		Harmony.say("Now marking explored rooms.")
-		mapperService.exploring = true
-	end
+    if mapperService.exploring then
+        Harmony.say("Will not mark explored rooms.")
+        mapperService.exploring = false
+    else
+        Harmony.say("Now marking explored rooms.")
+        mapperService.exploring = true
+    end
 end
 
 -- Updates the room as being visited
 function mapperService.updateRoom()
-	if not mapperService.exploring then return end
+    if not mapperService.exploring then return end
 
-	local explored = getRoomUserData(gmcp.Room.Info.num, mapperService.dataname)
+    -- Try to get the room
+    local theRoom = mapperService.getRoom(gmcp.Room.Info.num) or mapperService.createRoom(gmcp.Room.Info.num)
 
-	if explored == "" then
-		setRoomUserData(gmcp.Room.Info.num, mapperService.dataname, "1")
-		Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
-	end
+    if theRoom.explored then return end
+
+    theRoom.explored = true
+    mapperService.saveData()
+    Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
 end
 
-if not Harmony.mapping then Harmony.mapping = mapperService end
+if not Harmony.mapping then 
+    Harmony.mapping = mapperService
+    mapperService.loadData()
+end

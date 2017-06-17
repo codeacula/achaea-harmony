@@ -5,13 +5,16 @@ else
 	_sep = "\\" 
 end
 
--- Loads a harmony file
-function loadFile(fileName)
-	dofile(getMudletHomeDir() .. _sep .. "harmony" .. _sep ..fileName)
-end
-
 if not Harmony then
 	Harmony = {}
+
+    function Harmony.getPath(fileName)
+        return getMudletHomeDir() .. _sep .. "harmony" .. _sep ..fileName
+    end
+
+    function Harmony.loadFile(fileName)
+        dofile(Harmony.getPath(fileName))
+    end
 
 	function Harmony.say(text)
 		cecho("\n <WhiteSmoke>|<DarkGreen>Harmony<WhiteSmoke>| <reset>"..text.."\n")
@@ -20,7 +23,7 @@ if not Harmony then
 	Harmony.say("Harmony resetting.")
 end
 
-loadFile("keypad.lua")
-loadFile("items.lua")
-loadFile("hunting.lua")
-loadFile("mapping.lua")
+Harmony.loadFile("keypad.lua")
+Harmony.loadFile("items.lua")
+Harmony.loadFile("hunting.lua")
+Harmony.loadFile("mapping.lua")

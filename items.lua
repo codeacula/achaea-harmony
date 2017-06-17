@@ -1,6 +1,6 @@
 local itemService = {}
 
-itemService.pickingUp = true
+itemService.pickingUp = false
 
 itemService.pickupItems = {
 	["a chipped tangerine shard"] = true,
