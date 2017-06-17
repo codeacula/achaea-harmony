@@ -2,6 +2,7 @@ local mapperService = {}
 
 Harmony.loadFile("room.lua")
 
+mapperService.autoExplore = false
 mapperService.dataname = "harmonyExplored"
 mapperService.exploring = false
 mapperService.locked = "harmonyLocked"
@@ -14,7 +15,6 @@ function mapperService.arrived()
         Harmony.say("We're here!")
     end
 end
-registerAnonymousEventHandler("mmapper arrived", "mapperService.arrived")
 
 function mapperService.createRoom(id)
     id = tonumber(id)
@@ -28,6 +28,12 @@ function mapperService.createRoom(id)
     mapperService.saveData()
 
     return newRoom
+end
+
+function mapperService.exploreNext()
+    if mapperService.autoExplore then
+        tempTimer(.5, mapperService.gotoNextRoom)
+    end
 end
 
 function mapperService.getRoom(id)
@@ -148,6 +154,16 @@ function mapperService.saveData()
     saveFile:flush()
     saveFile:close()
     return false
+end
+
+function mapperService.toggleAutoexplore()
+    if mapperService.autoExplore then
+        Harmony.say("Will not auto explore rooms.")
+        mapperService.autoExplore = false
+    else
+        Harmony.say("Now auto exploring rooms.")
+        mapperService.autoExplore = true
+    end
 end
 
 function mapperService.toggleExploring()
