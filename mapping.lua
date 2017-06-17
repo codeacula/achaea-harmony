@@ -13,33 +13,10 @@ function mapperService.arrived()
     end
 end
 
-function mapperService.createRoom(id)
-    id = tonumber(id)
-
-    if not id then return end
-
-    local newRoom = Room.new(id)
-
-    mapperService.rooms[id] = newRoom
-
-    mapperService.saveData()
-
-    return newRoom
-end
-
 function mapperService.exploreNext()
     if mapperService.autoExplore then
         tempTimer(.5, mapperService.gotoNextRoom)
     end
-end
-
-function mapperService.getRoom(id)
-
-    id = tonumber(id)
-
-    if not id then return end
-
-    return mapperService.rooms[id]
 end
 
 -- When autoexploring, sets up going to the next location
@@ -81,14 +58,6 @@ function mapperService.printUnexploredRooms()
     local roomList = getAreaRooms(areaId)
 
     local unexploredRooms = {}
-
-    for _, id in pairs(roomList) do
-        local theRoom = mapperService.getRoom(id) or mapperService.createRoom(id)
-
-        if theRoom and not theRoom.explored and not theRoom.locked then
-            table.insert(unexploredRooms, { id = id, name = getRoomName(id)})
-        end
-    end
 
 	for _, id in pairs(roomList) do
 		if getRoomUserData(id, mapperService.dataname) == "" then
@@ -151,5 +120,4 @@ end
 
 if not Harmony.mapping then 
     Harmony.mapping = mapperService
-    mapperService.loadData()
 end
