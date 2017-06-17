@@ -5,10 +5,9 @@ Harmony.loadFile("room.lua")
 mapperService.autoExplore = false
 mapperService.dataname = "harmonyExplored"
 mapperService.exploring = false
-mapperService.locked = "harmonyLocked"
-mapperService.rooms = {}
 mapperService.walkingTo = nil
 
+-- Clears out the room we're walking to
 function mapperService.arrived()
     if mapperService.walkingTo then
         mapperService.walkingTo = nil
@@ -45,67 +44,40 @@ function mapperService.getRoom(id)
     return mapperService.rooms[id]
 end
 
+-- When autoexploring, sets up going to the next location
+function mapperService.exploreNext()
+    if mapperService.autoExplore then
+        tempTimer(.5, mapperService.gotoNextRoom)
+    end
+end
+
+-- Takes us to the next room
 function mapperService.gotoNextRoom()
-    local areaId = getRoomArea(mmp.currentroom)
-    local roomList = getAreaRooms(areaId)
+	local areaId = getRoomArea(mmp.currentroom)
+	local roomList = getAreaRooms(areaId)
 
-    table.sort(roomList)
+	table.sort(roomList)
 
-    for _, id in pairs(roomList) do
-        local theRoom = mapperService.getRoom(id) or mapperService.createRoom(id)
-        
-        if theRoom and not theRoom.explored and not theRoom.locked and mmp.getPath(mmp.currentroom, id) then
-            Harmony.say(string.format("Going to %s (%s)", getRoomName(id), id))
-            mapperService.walkingTo = id
-            mmp.gotoRoom(id)
-            return
-        end
-    end
+	for _, id in pairs(roomList) do
+		if getRoomUserData(id, mapperService.dataname) == "" and not roomLocked(id) and mmp.getPath(mmp.currentroom, id) then
+			Harmony.say(string.format("Going to %s (%s)", getRoomName(id), id))
+			mapperService.walkingTo = id
+			mmp.gotoRoom(id)
+			return
+		end
+	end
 
-    Harmony.say("No unexplored rooms the mapper can path to.")
-    return
+	Harmony.say("No unexplored rooms the mapper can path to.")
+	return
 end
 
-function mapperService.loadData()
-    mapperService.rooms = {}
-
-    local currentRoom = nil
-    for line in io.lines(Harmony.getPath("map_data.txt")) do
-        if line:match("^%[(.*)%]$") then
-            local match = line:match("^%[(.*)%]$")
-
-            currentRoom = mapperService.createRoom(match)
-        elseif line == "explored" and currentRoom then
-            currentRoom.explored = true
-        elseif line == "locked" and currentRoom then
-            currentRoom.locked = true
-        end
-        
-    end
-
-    Harmony.say("Map data loaded.")
-    return false
+-- Marks a room as locked
+function mapperService.lockRoom(id)
+	lockRoom(id, true)
+	Harmony.say(string.format("Locked %s (%s)", getRoomName(id), id))
 end
 
-function mapperService.lockRoom(roomNum)
-    local theRoom = mapperService.getRoom(roomNum) or mapperService.createRoom(roomNum)
-
-    if not theRoom then
-        Harmony.say("No room found to lock? What!?")
-        return
-    end
-
-    if not theRoom.locked then
-        theRoom.locked = true
-        Harmony.say(string.format("Locked %s (%s)", getRoomName(roomNum), roomNum))
-    else
-        theRoom.locked = false
-        Harmony.say(string.format("Unlocked %s (%s)", getRoomName(roomNum), roomNum))
-    end
-
-    mapperService.saveData()
-end
-
+-- Shows us all the unexplored rooms in the area
 function mapperService.printUnexploredRooms()
     local areaId = getRoomArea(mmp.currentroom)
     local roomList = getAreaRooms(areaId)
@@ -120,7 +92,11 @@ function mapperService.printUnexploredRooms()
         end
     end
 
-    table.sort(unexploredRooms, function(t1, t2) return tonumber(t1.id) < tonumber(t2.id) end)
+	for _, id in pairs(roomList) do
+		if getRoomUserData(id, mapperService.dataname) == "" then
+			table.insert(unexploredRooms, { id = id, name = getRoomName(id)})
+		end
+	end
 
     Harmony.say("Unexplored rooms:")
     for _, i in ipairs(unexploredRooms) do
@@ -130,32 +106,16 @@ function mapperService.printUnexploredRooms()
     mapperService.saveData()
 end
 
+-- Locks a room when we are autowalking and the door is locked
 function mapperService.roomLocked()
-    if not mapperService.walkingTo then return end
-
-    local theRoom = mapperService.getRoom(mapperService.walkingTo) or mapperService.createRoom(mapperService.walkingTo)
-
-    mapperService.walkingTo = nil
-
-    if not theRoom then return true end
-
-    theRoom.locked = true
-    Harmony.say(string.format("Locked %s (%s)", getRoomName(mapperService.walkingTo), mapperService.walkingTo))
-    mapperService.saveData()
+	if mapperService.walkingTo then
+		mapperService.lockRoom(mapperService.walkingTo)
+		mapperService.walkingTo = nil
+		return
+	end
 end
 
-function mapperService.saveData()
-    local saveFile = assert(io.open(Harmony.getPath("map_data.txt"), "w+"))
-
-    for id, roomData in pairs(mapperService.rooms) do
-        roomData:saveData(saveFile)
-    end
-    
-    saveFile:flush()
-    saveFile:close()
-    return false
-end
-
+-- Turns on/off auto-exploration
 function mapperService.toggleAutoexplore()
     if mapperService.autoExplore then
         Harmony.say("Will not auto explore rooms.")
@@ -166,6 +126,7 @@ function mapperService.toggleAutoexplore()
     end
 end
 
+-- Turns on/off exploration
 function mapperService.toggleExploring()
     if mapperService.exploring then
         Harmony.say("Will not mark explored rooms.")
@@ -176,6 +137,7 @@ function mapperService.toggleExploring()
     end
 end
 
+-- Updates the room as being visited
 function mapperService.updateRoom()
     if not mapperService.exploring then return end
 
