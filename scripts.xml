@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.000">
+    <ScriptPackage>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            <name>UI</name>
+            <packageName></packageName>
+            <script>UI = UI or {}</script>
+            <eventHandlerList/>
+            <ScriptGroup isActive="yes" isFolder="yes">
+                <name>RightSide</name>
+                <packageName></packageName>
+                <script>UI.Right = Geyser.Container:new({x=&quot;71.5%&quot;,y=&quot;65%&quot;,width=&quot;100%&quot;,height=&quot;100%&quot;,name=&quot;right container&quot;})
+</script>
+                <eventHandlerList/>
+                <Script isActive="yes" isFolder="no">
+                    <name>Mudlet Map</name>
+                    <packageName></packageName>
+                    <script>UI.mudletMap = Geyser.Mapper:new({
+    name = &quot;mudletMap&quot;,
+    x = &quot;71.5%&quot;, y = &quot;65%&quot;,
+    width = &quot;25%&quot;, height = &quot;30%&quot;
+}, UI.Right)</script>
+                    <eventHandlerList/>
+                </Script>
+            </ScriptGroup>
+        </ScriptGroup>
+    </ScriptPackage>
+</MudletPackage>

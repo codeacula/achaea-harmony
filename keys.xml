@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.000">
+    <KeyPackage>
+        <KeyGroup isActive="yes" isFolder="yes">
+            <name>Harmony</name>
+            <packageName></packageName>
+            <script></script>
+            <command></command>
+            <keyCode>-1</keyCode>
+            <keyModifier>-1</keyModifier>
+            <KeyGroup isActive="yes" isFolder="yes">
+                <name>Keypad</name>
+                <packageName></packageName>
+                <script></script>
+                <command></command>
+                <keyCode>-1</keyCode>
+                <keyModifier>-1</keyModifier>
+                <Key isActive="yes" isFolder="no">
+                    <name>0</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;0&quot;)
+else
+	send(&quot;map&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>48</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>1</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;1&quot;)
+else
+	send(&quot;sw&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>49</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>2</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;2&quot;)
+else
+	send(&quot;s&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>50</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>3</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;3&quot;)
+else
+	send(&quot;se&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>51</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>4</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;4&quot;)
+else
+	send(&quot;w&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>52</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>5</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;5&quot;)
+else
+	send(&quot;look&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>53</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>6</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;6&quot;)
+else
+	send(&quot;e&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>54</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>7</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;7&quot;)
+else
+	send(&quot;ne&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>55</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>8</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;8&quot;)
+else
+	send(&quot;n&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>56</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>9</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;9&quot;)
+else
+	send(&quot;ne&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>57</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>/</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;/&quot;)
+else
+	send(&quot;in&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>47</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>*</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;*&quot;)
+else
+	send(&quot;out&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>42</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>-</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;-&quot;)
+else
+	send(&quot;up&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>45</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>+</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;+&quot;)
+else
+	send(&quot;down&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>43</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+                <Key isActive="yes" isFolder="no">
+                    <name>.</name>
+                    <packageName></packageName>
+                    <script>if Harmony then
+	Harmony.keypad.processKey(&quot;.&quot;)
+else
+	send(&quot;ih&quot;)
+end</script>
+                    <command></command>
+                    <keyCode>46</keyCode>
+                    <keyModifier>536870912</keyModifier>
+                </Key>
+            </KeyGroup>
+        </KeyGroup>
+    </KeyPackage>
+</MudletPackage>
