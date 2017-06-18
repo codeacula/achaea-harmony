@@ -1,27 +1,27 @@
+if Harmony then return end
+
 local _sep
 if string.char(getMudletHomeDir():byte()) == "/" then 
-	_sep = "/" 
+    _sep = "/" 
 else
-	_sep = "\\" 
+    _sep = "\\" 
 end
 
-if not Harmony then
-	Harmony = {}
+Harmony = {}
 
-    function Harmony.getPath(fileName)
-        return getMudletHomeDir() .. _sep .. "harmony" .. _sep ..fileName
-    end
-
-    function Harmony.loadFile(fileName)
-        dofile(Harmony.getPath(fileName))
-    end
-
-	function Harmony.say(text)
-		cecho("\n <WhiteSmoke>|<DarkGreen>Harmony<WhiteSmoke>| <reset>"..text.."\n")
-	end
-
-	Harmony.say("Harmony resetting.")
+function Harmony.getPath(fileName)
+    return getMudletHomeDir() .. _sep .. "harmony" .. _sep ..fileName
 end
+
+function Harmony.loadFile(fileName)
+    dofile(Harmony.getPath(fileName))
+end
+
+function Harmony.say(text)
+    cecho("\n <WhiteSmoke>|<DarkGreen>Harmony<WhiteSmoke>| <reset>"..text.."\n")
+end
+
+Harmony.say("Harmony resetting.")
 
 Harmony.loadFile("keypad.lua")
 Harmony.loadFile("hunting.lua")

@@ -1,3 +1,5 @@
+if Harmony and Harmony.mapping then return end
+
 local mapperService = {}
 
 mapperService.autoExplore = false
@@ -116,8 +118,4 @@ function mapperService.updateRoom()
     theRoom.explored = true
     mapperService.saveData()
     Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
-end
-
-if not Harmony.mapping then 
-    Harmony.mapping = mapperService
 end

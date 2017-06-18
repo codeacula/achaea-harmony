@@ -1,3 +1,5 @@
+if Harmony and Harmony.hunting then return end
+
 local hunterService = {}
 
 -- Do we automatically attack?
@@ -56,4 +58,4 @@ function hunterService.toggleAutoAttack()
     end
 end
 
-if not Harmony.hunting then Harmony.hunting = hunterService end
+Harmony.hunting = hunterService
