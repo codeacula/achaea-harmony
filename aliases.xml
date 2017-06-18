@@ -81,6 +81,13 @@ end</script>
                     <packageName></packageName>
                     <regex>har hide (\d+)</regex>
                 </Alias>
+                <Alias isActive="yes" isFolder="no">
+                    <name>Mark current room</name>
+                    <script>Harmony.mapping.markCurrentRoom(matches[2])</script>
+                    <command></command>
+                    <packageName></packageName>
+                    <regex>^room mark (\w+)$</regex>
+                </Alias>
             </AliasGroup>
             <Alias isActive="yes" isFolder="no">
                 <name>Reset Harmony</name>
@@ -128,6 +135,7 @@ addCommand(&quot;mapping&quot;, &quot;har unexplored&quot;, &quot;Shows all know
 addCommand(&quot;mapping&quot;, &quot;har locked &lt;roomid&gt;&quot;, &quot;Marks the provided room id as locked&quot;)
 addCommand(&quot;mapping&quot;, &quot;har hide &lt;roomid&gt;&quot;, &quot;Puts the provided room id in area -1, effectively hiding it&quot;)
 addCommand(&quot;mapping&quot;, &quot;har er&quot;, &quot;Looks for the first unvisited, unlocked room by id and tells the mapper to go there&quot;)
+addCommand(&quot;mapping&quot;, &quot;room mark &lt;mark&gt;&quot;, &quot;Marks the current room with the mark you provide&quot;)
 addCommand(&quot;system&quot;, &quot;har reset&quot;, &quot;Resets and reruns the harmony scripts&quot;)
 addCommand(&quot;ui&quot;, &quot;har map&quot;, &quot;Turns the map on/off&quot;)
 
@@ -152,22 +160,6 @@ end
                 <packageName></packageName>
                 <regex>^har$</regex>
             </Alias>
-            <AliasGroup isActive="yes" isFolder="yes">
-                <name>UI</name>
-                <script></script>
-                <command></command>
-                <packageName></packageName>
-                <regex></regex>
-                <Alias isActive="yes" isFolder="no">
-                    <name>toggle map</name>
-                    <script>if Harmony then
-	Harmony.ui.toggleMap()
-end</script>
-                    <command></command>
-                    <packageName></packageName>
-                    <regex>^har map$</regex>
-                </Alias>
-            </AliasGroup>
         </AliasGroup>
     </AliasPackage>
 </MudletPackage>

@@ -54,6 +54,36 @@ function mapperService.lockRoom(id)
 	Harmony.say(string.format("Locked %s (%s)", getRoomName(id), id))
 end
 
+-- Marks the room we're currently in
+function mapperService.markCurrentRoom(mark)
+    -- Apparently the mapper keeps all the marks in a single room
+    -- So, I copied this code from the alias
+
+    local tmp = getRoomUserData(1, "gotoMapping")
+    local maptable = {}
+
+    if tmp ~= "" then
+      maptable = yajl.to_value(tmp)
+    end
+
+    local location, markname = mmp.currentroom, mark
+
+    -- can't allow mark name to ne a number - yajl then generates a giant table of null's
+    if tonumber(markname) then
+      mmp.echo("The mark name can't be a number.") return
+    end
+
+    maptable[markname] = location
+    local tmp2 = yajl.to_string(maptable)
+
+    if not mmp.roomexists(1) then
+      addRoom(1)
+    end
+
+    setRoomUserData(1, "gotoMapping", tmp2)
+    mmp.echo(string.format("Room mark for '%s' set to room %s.", markname, location))
+end
+
 -- Shows us all the unexplored rooms in the area
 function mapperService.printUnexploredRooms()
     local areaId = getRoomArea(mmp.currentroom)
@@ -119,3 +149,5 @@ function mapperService.updateRoom()
     mapperService.saveData()
     Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
 end
+
+Harmony.mapping = mapperService
