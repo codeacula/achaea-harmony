@@ -140,13 +140,9 @@ end
 function mapperService.updateRoom()
     if not mapperService.exploring then return end
 
-    -- Try to get the room
-    local theRoom = mapperService.getRoom(gmcp.Room.Info.num) or mapperService.createRoom(gmcp.Room.Info.num)
+    if getRoomUserData(gmcp.Room.Info.num, mapperService.dataname) ~= "" then return end
 
-    if theRoom.explored then return end
-
-    theRoom.explored = true
-    mapperService.saveData()
+    setRoomUserData(gmcp.Room.Info.num, mapperService.dataname, "1")
     Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
 end
 
