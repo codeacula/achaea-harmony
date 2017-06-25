@@ -1,28 +1,29 @@
-if Harmony then return end
+if not Harmony then
+    local _sep
+    if string.char(getMudletHomeDir():byte()) == "/" then 
+        _sep = "/" 
+    else
+        _sep = "\\" 
+    end
 
-local _sep
-if string.char(getMudletHomeDir():byte()) == "/" then 
-    _sep = "/" 
-else
-    _sep = "\\" 
+    Harmony = {}
+
+    function Harmony.getPath(fileName)
+        return getMudletHomeDir() .. _sep .. "harmony" .. _sep ..fileName
+    end
+
+    function Harmony.loadFile(fileName)
+        dofile(Harmony.getPath(fileName))
+    end
+
+    function Harmony.say(text)
+        cecho("\n <WhiteSmoke>|<DarkGreen>Harmony<WhiteSmoke>| <reset>"..text.."\n")
+    end
+
+    Harmony.say("Harmony resetting.")
 end
-
-Harmony = {}
-
-function Harmony.getPath(fileName)
-    return getMudletHomeDir() .. _sep .. "harmony" .. _sep ..fileName
-end
-
-function Harmony.loadFile(fileName)
-    dofile(Harmony.getPath(fileName))
-end
-
-function Harmony.say(text)
-    cecho("\n <WhiteSmoke>|<DarkGreen>Harmony<WhiteSmoke>| <reset>"..text.."\n")
-end
-
-Harmony.say("Harmony resetting.")
 
 Harmony.loadFile("keypad.lua")
 Harmony.loadFile("hunting.lua")
 Harmony.loadFile("mapping.lua")
+Harmony.loadFile("refills.lua")

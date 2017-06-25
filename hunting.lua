@@ -56,6 +56,8 @@ function hunterService.toggleAutoAttack()
         hunterService.attackOnUpdate = true
         Harmony.say("Will now automatically attack mobs!")
     end
+
+    raiseEvent("Harmony.hunter.autoAttackChanged", hunterService.attackOnUpdate)
 end
 
 Harmony.hunting = hunterService

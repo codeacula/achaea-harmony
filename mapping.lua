@@ -123,6 +123,7 @@ function mapperService.toggleAutoexplore()
         Harmony.say("Now auto exploring rooms.")
         mapperService.autoExplore = true
     end
+    raiseEvent("Harmony.mapper.autoexploringChanged", mapperService.exploring)
 end
 
 -- Turns on/off exploration
@@ -134,6 +135,8 @@ function mapperService.toggleExploring()
         Harmony.say("Now marking explored rooms.")
         mapperService.exploring = true
     end
+
+    raiseEvent("Harmony.mapper.exploringChanged", mapperService.exploring)
 end
 
 -- Updates the room as being visited
