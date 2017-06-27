@@ -1,1 +1,1 @@
-mpackage = "Harmony"
+mpackage = "harmony"
