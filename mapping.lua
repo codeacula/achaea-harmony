@@ -4,7 +4,7 @@ local mapperService = {}
 
 mapperService.autoExplore = false
 mapperService.dataname = "harmonyExplored"
-mapperService.exploring = false
+mapperService.exploring = true
 mapperService.walkingTo = nil
 
 -- Clears out the room we're walking to
@@ -14,12 +14,14 @@ function mapperService.arrived()
         Harmony.say("We're here!")
     end
 end
+registerAnonymousEventHandler("mmapper arrived", "Harmony.mapping.arrived")
 
 function mapperService.exploreNext()
     if mapperService.autoExplore then
         tempTimer(.5, mapperService.gotoNextRoom)
     end
 end
+registerAnonymousEventHandler("mmapper arrived", "Harmony.mapping.exploreNext")
 
 -- When autoexploring, sets up going to the next location
 function mapperService.exploreNext()
@@ -148,5 +150,6 @@ function mapperService.updateRoom()
     setRoomUserData(gmcp.Room.Info.num, mapperService.dataname, "1")
     Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
 end
+registerAnonymousEventHandler("gmcp.Room.Info", "Harmony.mapping.updateRoom")
 
 Harmony.mapping = mapperService

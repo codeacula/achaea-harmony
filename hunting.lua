@@ -1,28 +1,28 @@
-if Harmony and Harmony.hunting then return end
-
-local hunterService = {}
+Harmony.hunting = Harmony.hunting or {}
 
 -- Do we automatically attack?
-hunterService.attackOnUpdate = false
+Harmony.hunting.attackOnUpdate = Harmony.hunting.attackOnUpdate or false
 
 -- At this many mobs, don't auto-attack
-hunterService.threshold = 3
+Harmony.hunting.threshold = Harmony.hunting.threshold or 3
 
 -- Check to see if we attack
-function hunterService.checkAttack()
-    if not hunterService.checkBasher() then return end
+function Harmony.hunting.checkAttack()
+    if not Harmony.hunting.checkBasher() then return end
 
-    if hunterService.attackOnUpdate
+    if Harmony.hunting.attackOnUpdate
      and keneanung.bashing.attacking == 0
      and #keneanung.bashing.targetList > 0
-     and #keneanung.bashing.targetList < hunterService.threshold
+     and #keneanung.bashing.targetList < Harmony.hunting.threshold
      then
         keneanung.bashing.attackButton()
     end
 end
+registerAnonymousEventHandler("gmcp.Room.Info", "Harmony.hunting.checkAttack")
+registerAnonymousEventHandler("keneanung.bashing.targetList.firstChanged", "Harmony.hunting.checkAttack")
 
 -- Make sure we have the basher
-function hunterService.checkBasher()
+function Harmony.hunting.checkBasher()
     if not keneanung then return false end
     if not keneanung.bashing then return false end
     if not keneanung.bashing then return false end
@@ -31,12 +31,13 @@ function hunterService.checkBasher()
 end
 
 -- We got a room.info
-function hunterService.movedRooms()
-    hunterService.roomUpdated = true
+function Harmony.hunting.movedRooms()
+    Harmony.hunting.roomUpdated = true
 end
+registerAnonymousEventHandler("gmcp.Room.Info", "Harmony.hunting.movedRooms")
 
 -- Feeling bold or weak? Raise or lower the threshold
-function hunterService.setThreshold(val)
+function Harmony.hunting.setThreshold(val)
     val = tonumber(val)
 
     if not val then
@@ -44,20 +45,20 @@ function hunterService.setThreshold(val)
         return
     end
 
-    hunterService.threshold = tonumber(val)
+    Harmony.hunting.threshold = tonumber(val)
     Harmony.say(string.format("Threshold set to %s", val))
 end
 
-function hunterService.toggleAutoAttack()
-    if hunterService.attackOnUpdate then
-        hunterService.attackOnUpdate = false
+function Harmony.hunting.toggleAutoAttack()
+    if Harmony.hunting.attackOnUpdate then
+        Harmony.hunting.attackOnUpdate = false
         Harmony.say("Will no longer automatically attack mobs")
     else
-        hunterService.attackOnUpdate = true
+        Harmony.hunting.attackOnUpdate = true
         Harmony.say("Will now automatically attack mobs!")
     end
 
-    raiseEvent("Harmony.hunter.autoAttackChanged", hunterService.attackOnUpdate)
+    raiseEvent("Harmony.hunter.autoAttackChanged", Harmony.hunting.attackOnUpdate)
 end
 
-Harmony.hunting = hunterService
+Harmony.hunting = Harmony.hunting
