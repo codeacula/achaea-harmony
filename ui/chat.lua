@@ -1,5 +1,3 @@
-if Harmony.ui and Harmony.ui.chats then return end
-
 Harmony.ui.chats = {}
 Harmony.ui.chats.activeChat = nil
 Harmony.ui.chats.divisor = 8

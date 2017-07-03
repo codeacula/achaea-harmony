@@ -1,5 +1,3 @@
-if Harmony and Harmony.keypad then return end
-
 Harmony.keypad = {}
 
 Harmony.keypad.keys = {

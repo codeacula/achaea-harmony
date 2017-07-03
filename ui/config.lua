@@ -1,1 +1,0 @@
-mpackage = "harmony-ui"

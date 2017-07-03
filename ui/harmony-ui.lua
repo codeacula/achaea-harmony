@@ -2,9 +2,9 @@ function px(amount)
     return amount.."px"
 end
 
-Harmony.ui = Harmony.ui or {}
-Harmony.ui.settings = Harmony.ui.settings or {}
-Harmony.ui.side = Harmony.ui.side or {
+Harmony.ui = {}
+Harmony.ui.settings = {}
+Harmony.ui.side = {
     bottom = {},
     left = {},
     right = {},
@@ -64,12 +64,37 @@ function Harmony.ui.load()
     Harmony.ui.loadFile("callbacks.lua")
 
     Harmony.ui.loadFile("sides/top.lua")
+
     Harmony.ui.loadFile("sides/bottom.lua")
+
     Harmony.ui.loadFile("sides/left.lua")
+
     Harmony.ui.loadFile("sides/right.lua")
     Harmony.ui.loadFile("chat.lua")
     Harmony.ui.loadFile("settings.lua")
     Harmony.ui.loadFile("maps.lua")
+
+    if not Harmony.ui.settings.sides.top then
+        Harmony.ui.side.top.container:hide()
+        setBorderTop(0)
+    end
+
+    if not Harmony.ui.settings.sides.bottom then
+        Harmony.ui.side.bottom.container:hide()
+        setBorderBottom(0)
+    end
+
+    if not Harmony.ui.settings.sides.right then
+        Harmony.ui.side.right.container:hide()
+        Harmony.ui.side.right.mapContainer:hide()
+        Harmony.ui.maps.mudletMap:hide()
+        setBorderRight(0)
+    end
+
+    if not Harmony.ui.settings.sides.left then
+        Harmony.ui.side.left.container:hide()
+        setBorderLeft(0)
+    end
 
     Harmony.ui.callbacks.updateTopBar()
     
@@ -135,6 +160,12 @@ if not io.exists(Harmony.ui.getPath("settings.json")) then
             hnt = "House",
             ht = "House",
             party = "Party"
+        },
+        sides = {
+            top = true,
+            bottom = true,
+            left = false,
+            right = true
         },
         tabs = {
             "Important",

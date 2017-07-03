@@ -1,5 +1,3 @@
-if Harmony and Harmony.maps then return end
-
 Harmony.ui.maps = {}
 
 Harmony.ui.maps.mudletMapContainer = Harmony.ui.container({

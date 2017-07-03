@@ -1,5 +1,3 @@
-if Harmony.ui and Harmony.ui.callbacks then return end
-
 Harmony.ui.callbacks = {}
 
 function Harmony.ui.callbacks.autoAttackUpdated(event, what, setting)

@@ -1,5 +1,3 @@
-if Harmony.ui and Harmony.ui.settingsWindow then return end
-
 Harmony.ui.settingsWindow = {}
 Harmony.ui.settingsWindow.buttons = {}
 Harmony.ui.settingsWindow.container = nil

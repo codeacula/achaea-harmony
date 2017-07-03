@@ -1,46 +1,44 @@
-if Harmony and Harmony.mapping then return end
+Harmony.mapping = {}
 
-local mapperService = {}
-
-mapperService.autoExplore = false
-mapperService.dataname = "harmonyExplored"
-mapperService.exploring = true
-mapperService.walkingTo = nil
+Harmony.mapping.autoExplore = false
+Harmony.mapping.dataname = "harmonyExplored"
+Harmony.mapping.exploring = true
+Harmony.mapping.walkingTo = nil
 
 -- Clears out the room we're walking to
-function mapperService.arrived()
-    if mapperService.walkingTo then
-        mapperService.walkingTo = nil
+function Harmony.mapping.arrived()
+    if Harmony.mapping.walkingTo then
+        Harmony.mapping.walkingTo = nil
         Harmony.say("We're here!")
     end
 end
 registerAnonymousEventHandler("mmapper arrived", "Harmony.mapping.arrived")
 
-function mapperService.exploreNext()
-    if mapperService.autoExplore then
-        tempTimer(.5, mapperService.gotoNextRoom)
+function Harmony.mapping.exploreNext()
+    if Harmony.mapping.autoExplore then
+        tempTimer(.5, Harmony.mapping.gotoNextRoom)
     end
 end
 registerAnonymousEventHandler("mmapper arrived", "Harmony.mapping.exploreNext")
 
 -- When autoexploring, sets up going to the next location
-function mapperService.exploreNext()
-    if mapperService.autoExplore then
-        tempTimer(.5, mapperService.gotoNextRoom)
+function Harmony.mapping.exploreNext()
+    if Harmony.mapping.autoExplore then
+        tempTimer(.5, Harmony.mapping.gotoNextRoom)
     end
 end
 
 -- Takes us to the next room
-function mapperService.gotoNextRoom()
+function Harmony.mapping.gotoNextRoom()
 	local areaId = getRoomArea(mmp.currentroom)
 	local roomList = getAreaRooms(areaId)
 
 	table.sort(roomList)
 
 	for _, id in pairs(roomList) do
-		if getRoomUserData(id, mapperService.dataname) == "" and not roomLocked(id) and mmp.getPath(mmp.currentroom, id) then
+		if getRoomUserData(id, Harmony.mapping.dataname) == "" and not roomLocked(id) and mmp.getPath(mmp.currentroom, id) then
 			Harmony.say(string.format("Going to %s (%s)", getRoomName(id), id))
-			mapperService.walkingTo = id
+			Harmony.mapping.walkingTo = id
 			mmp.gotoRoom(id)
 			return
 		end
@@ -51,13 +49,13 @@ function mapperService.gotoNextRoom()
 end
 
 -- Marks a room as locked
-function mapperService.lockRoom(id)
+function Harmony.mapping.lockRoom(id)
 	lockRoom(id, true)
 	Harmony.say(string.format("Locked %s (%s)", getRoomName(id), id))
 end
 
 -- Marks the room we're currently in
-function mapperService.markCurrentRoom(mark)
+function Harmony.mapping.markCurrentRoom(mark)
     -- Apparently the mapper keeps all the marks in a single room
     -- So, I copied this code from the alias
 
@@ -87,14 +85,14 @@ function mapperService.markCurrentRoom(mark)
 end
 
 -- Shows us all the unexplored rooms in the area
-function mapperService.printUnexploredRooms()
+function Harmony.mapping.printUnexploredRooms()
     local areaId = getRoomArea(mmp.currentroom)
     local roomList = getAreaRooms(areaId)
 
     local unexploredRooms = {}
 
 	for _, id in pairs(roomList) do
-		if getRoomUserData(id, mapperService.dataname) == "" then
+		if getRoomUserData(id, Harmony.mapping.dataname) == "" then
 			table.insert(unexploredRooms, { id = id, name = getRoomName(id)})
 		end
 	end
@@ -104,52 +102,50 @@ function mapperService.printUnexploredRooms()
         cecho(string.format("<yellow>%s<reset> - <pink>%s\n", i.id, i.name))
     end
 
-    mapperService.saveData()
+    Harmony.mapping.saveData()
 end
 
 -- Locks a room when we are autowalking and the door is locked
-function mapperService.roomLocked()
-	if mapperService.walkingTo then
-		mapperService.lockRoom(mapperService.walkingTo)
-		mapperService.walkingTo = nil
+function Harmony.mapping.roomLocked()
+	if Harmony.mapping.walkingTo then
+		Harmony.mapping.lockRoom(Harmony.mapping.walkingTo)
+		Harmony.mapping.walkingTo = nil
 		return
 	end
 end
 
 -- Turns on/off auto-exploration
-function mapperService.toggleAutoexplore()
-    if mapperService.autoExplore then
+function Harmony.mapping.toggleAutoexplore()
+    if Harmony.mapping.autoExplore then
         Harmony.say("Will not auto explore rooms.")
-        mapperService.autoExplore = false
+        Harmony.mapping.autoExplore = false
     else
         Harmony.say("Now auto exploring rooms.")
-        mapperService.autoExplore = true
+        Harmony.mapping.autoExplore = true
     end
-    raiseEvent("Harmony.mapper.autoexploringChanged", mapperService.exploring)
+    raiseEvent("Harmony.mapper.autoexploringChanged", Harmony.mapping.exploring)
 end
 
 -- Turns on/off exploration
-function mapperService.toggleExploring()
-    if mapperService.exploring then
+function Harmony.mapping.toggleExploring()
+    if Harmony.mapping.exploring then
         Harmony.say("Will not mark explored rooms.")
-        mapperService.exploring = false
+        Harmony.mapping.exploring = false
     else
         Harmony.say("Now marking explored rooms.")
-        mapperService.exploring = true
+        Harmony.mapping.exploring = true
     end
 
-    raiseEvent("Harmony.mapper.exploringChanged", mapperService.exploring)
+    raiseEvent("Harmony.mapper.exploringChanged", Harmony.mapping.exploring)
 end
 
 -- Updates the room as being visited
-function mapperService.updateRoom()
-    if not mapperService.exploring then return end
+function Harmony.mapping.updateRoom()
+    if not Harmony.mapping.exploring then return end
 
-    if getRoomUserData(gmcp.Room.Info.num, mapperService.dataname) ~= "" then return end
+    if getRoomUserData(gmcp.Room.Info.num, Harmony.mapping.dataname) ~= "" then return end
 
-    setRoomUserData(gmcp.Room.Info.num, mapperService.dataname, "1")
+    setRoomUserData(gmcp.Room.Info.num, Harmony.mapping.dataname, "1")
     Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
 end
 registerAnonymousEventHandler("gmcp.Room.Info", "Harmony.mapping.updateRoom")
-
-Harmony.mapping = mapperService

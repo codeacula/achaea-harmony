@@ -1,3 +1,5 @@
+if Harmony then return end
+
 local _sep
 if string.char(getMudletHomeDir():byte()) == "/" then 
     _sep = "/" 

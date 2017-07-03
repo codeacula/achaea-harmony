@@ -1,5 +1,14 @@
-barWidth = Harmony.ui.window.width - Harmony.ui.settings.border.left
-barWidth = barWidth - Harmony.ui.settings.border.right
+local barWidth = Harmony.ui.window.width
+local xpos = 0
+
+if Harmony.ui.settings.sides.left then
+    barWidth = barWidth - Harmony.ui.settings.border.left
+    xpos = Harmony.ui.settings.border.left
+end
+
+if Harmony.ui.settings.sides.left then
+    barWidth = barWidth - Harmony.ui.settings.border.right
+end
 
 if barWidth < 0 then barWidth = 0 end
 
@@ -68,7 +77,7 @@ end
 
 Harmony.ui.side.top.container = Harmony.ui.container({
     name = "topContainer",
-    x = px(Harmony.ui.settings.border.left), y = "0px",
+    x = px(xpos), y = "0px",
     width = px(barWidth), height = px(Harmony.ui.settings.border.top)
 });
 
@@ -89,4 +98,4 @@ Harmony.ui.side.top.console = Harmony.ui.console({
     name = "topConsole",
     x = "0%", y = "0%",
     width = "100%", height = "30%"
-    }, Harmony.ui.side.top.container)
+}, Harmony.ui.side.top.container)
