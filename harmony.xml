@@ -8,6 +8,71 @@
             <command></command>
             <packageName></packageName>
             <regex></regex>
+            <AliasGroup isActive="yes" isFolder="yes">
+                <name>UI</name>
+                <script></script>
+                <command></command>
+                <packageName></packageName>
+                <regex></regex>
+                <AliasGroup isActive="yes" isFolder="yes">
+                    <name>Load &amp; Save</name>
+                    <script></script>
+                    <command></command>
+                    <packageName></packageName>
+                    <regex></regex>
+                    <Alias isActive="yes" isFolder="no">
+                        <name>Load the UI</name>
+                        <script>if Harmony.UI then
+    Harmony.UI.unload()
+    Harmony.UI = nil
+end
+
+Harmony.UI_loadUI()</script>
+                        <command></command>
+                        <packageName></packageName>
+                        <regex>^harui load$</regex>
+                    </Alias>
+                    <Alias isActive="yes" isFolder="no">
+                        <name>Save UI</name>
+                        <script>if Harmony.UI then
+    Harmony.UI.saveSettings()
+end</script>
+                        <command></command>
+                        <packageName></packageName>
+                        <regex>^harui save$</regex>
+                    </Alias>
+                    <Alias isActive="yes" isFolder="no">
+                        <name>Unload the UI</name>
+                        <script>Harmony.UI.unload()</script>
+                        <command></command>
+                        <packageName></packageName>
+                        <regex>^harui unload$</regex>
+                    </Alias>
+                    <Alias isActive="yes" isFolder="no">
+                        <name>Reset Profile</name>
+                        <script>-- Warning - This resets the whole profile
+resetProfile()
+send(&quot;look&quot;)</script>
+                        <command></command>
+                        <packageName></packageName>
+                        <regex>^harui reset$</regex>
+                    </Alias>
+                </AliasGroup>
+                <AliasGroup isActive="yes" isFolder="yes">
+                    <name>Adjusting Width/Height</name>
+                    <script></script>
+                    <command></command>
+                    <packageName></packageName>
+                    <regex></regex>
+                    <Alias isActive="yes" isFolder="no">
+                        <name>Set border</name>
+                        <script>Harmony.UI.setBorder(matches[2], matches[3])</script>
+                        <command></command>
+                        <packageName></packageName>
+                        <regex>^harui border (top|bottom|right|left) (\d+)$</regex>
+                    </Alias>
+                </AliasGroup>
+            </AliasGroup>
             <AliasGroup isActive="no" isFolder="yes">
                 <name>Combat</name>
                 <script></script>
@@ -123,52 +188,7 @@ dofile(scriptFile)</script>
             </Alias>
             <Alias isActive="yes" isFolder="no">
                 <name>Show commands</name>
-                <script>local commandGroups = {} -- Because I want to sort by category
-local commandGroupCache = {} -- Because I want easy lookups
-
--- Because I don't want to write them in table structure manually
-local addCommand = function(group, comm, desc)
-    if not commandGroupCache[group] then
-        local newGroup = {
-            name = group,
-            commands = {}
-        }
-
-        table.insert(commandGroups, newGroup)
-        commandGroupCache[group] = newGroup
-    end
-
-    table.insert(commandGroupCache[group].commands, { command = comm, desc = desc })
-end
-
-addCommand(&quot;bashing&quot;, &quot;har autoattack&quot;, &quot;Toggles on/off auto attack&quot;)
-addCommand(&quot;bashing&quot;, &quot;har threshold &lt;number&gt;&quot;, &quot;If you enter a room with this many mobs or more, won't autoattack&quot;)
-addCommand(&quot;mapping&quot;, &quot;har exp&quot;, &quot;Toggles on/off marking rooms as explored when you visit them&quot;)
-addCommand(&quot;mapping&quot;, &quot;har autoexp&quot;, &quot;Toggles on/off auto exploration&quot;)
-addCommand(&quot;mapping&quot;, &quot;har unexplored&quot;, &quot;Shows all known unexplored rooms, even if they're locked&quot;)
-addCommand(&quot;mapping&quot;, &quot;har locked &lt;roomid&gt;&quot;, &quot;Marks the provided room id as locked&quot;)
-addCommand(&quot;mapping&quot;, &quot;har hide &lt;roomid&gt;&quot;, &quot;Puts the provided room id in area -1, effectively hiding it&quot;)
-addCommand(&quot;mapping&quot;, &quot;har er&quot;, &quot;Looks for the first unvisited, unlocked room by id and tells the mapper to go there&quot;)
-addCommand(&quot;system&quot;, &quot;har reset&quot;, &quot;Resets and reruns the harmony scripts&quot;)
-addCommand(&quot;ui&quot;, &quot;har map&quot;, &quot;Turns the map on/off&quot;)
-
-table.sort(commandGroups, function(t1, t2) return t1.name &lt;= t2.name end)
-if Harmony then
-    Harmony.say(&quot;Here's the currently available commands&quot;)
-
-    for _, group in ipairs(commandGroups) do
-        cecho(string.format(&quot;&lt;HotPink&gt;Category: &lt;ForestGreen&gt;%s\n&quot;, group.name))
-        
-        table.sort(group.commands, function(t1, t2) return t1.command &lt;= t2.command end)
-
-        for _, command in ipairs(group.commands) do
-            cecho(string.format(&quot;&lt;yellow&gt;%s&lt;white&gt; - &lt;pink&gt;%s\n&quot;, command.command, command.desc))
-        end
-        cecho(&quot;\n&quot;)
-    end
-end
-
-</script>
+                <script>Harmony.printCommands()</script>
                 <command></command>
                 <packageName></packageName>
                 <regex>^har$</regex>
@@ -183,265 +203,166 @@ end
             <command></command>
             <keyCode>-1</keyCode>
             <keyModifier>-1</keyModifier>
-            <KeyGroup isActive="yes" isFolder="yes">
-                <name>Keypad</name>
+            <Key isActive="yes" isFolder="no">
+                <name>/</name>
                 <packageName></packageName>
-                <script></script>
+                <script>Harmony.keypad.processKey(&quot;/&quot;)</script>
                 <command></command>
-                <keyCode>-1</keyCode>
-                <keyModifier>-1</keyModifier>
-                <Key isActive="yes" isFolder="no">
-                    <name>0</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;0&quot;)
-else
-    send(&quot;map&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>48</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>1</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;1&quot;)
-else
-    send(&quot;sw&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>49</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>2</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;2&quot;)
-else
-    send(&quot;s&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>50</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>3</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;3&quot;)
-else
-    send(&quot;se&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>51</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>4</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;4&quot;)
-else
-    send(&quot;w&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>52</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>5</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;5&quot;)
-else
-    send(&quot;look&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>53</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>6</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;6&quot;)
-else
-    send(&quot;e&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>54</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>7</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;7&quot;)
-else
-    send(&quot;ne&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>55</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>8</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;8&quot;)
-else
-    send(&quot;n&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>56</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>9</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;9&quot;)
-else
-    send(&quot;ne&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>57</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>/</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;/&quot;)
-else
-    send(&quot;in&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>47</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>*</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;*&quot;)
-else
-    send(&quot;out&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>42</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>-</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;-&quot;)
-else
-    send(&quot;up&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>45</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>+</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;+&quot;)
-else
-    send(&quot;down&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>43</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-                <Key isActive="yes" isFolder="no">
-                    <name>.</name>
-                    <packageName></packageName>
-                    <script>if Harmony then
-    Harmony.keypad.processKey(&quot;.&quot;)
-else
-    keneanung.bashing.checkingIH = true
-    send(&quot;ih&quot;)
-end</script>
-                    <command></command>
-                    <keyCode>46</keyCode>
-                    <keyModifier>536870912</keyModifier>
-                </Key>
-            </KeyGroup>
+                <keyCode>47</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>*</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;*&quot;)</script>
+                <command></command>
+                <keyCode>42</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>-</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;-&quot;)</script>
+                <command></command>
+                <keyCode>45</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>+</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;+&quot;)</script>
+                <command></command>
+                <keyCode>43</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>.</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;.&quot;)</script>
+                <command></command>
+                <keyCode>46</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>0</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;0&quot;)</script>
+                <command></command>
+                <keyCode>48</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>1</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;1&quot;)</script>
+                <command></command>
+                <keyCode>49</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>2</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;2&quot;)</script>
+                <command></command>
+                <keyCode>50</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>3</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;3&quot;)</script>
+                <command></command>
+                <keyCode>51</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>4</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;4&quot;)</script>
+                <command></command>
+                <keyCode>52</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>5</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;5&quot;)</script>
+                <command></command>
+                <keyCode>53</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>6</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;6&quot;)</script>
+                <command></command>
+                <keyCode>54</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>7</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;7&quot;)</script>
+                <command></command>
+                <keyCode>55</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>8</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;8&quot;)</script>
+                <command></command>
+                <keyCode>56</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>9</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.processKey(&quot;9&quot;)</script>
+                <command></command>
+                <keyCode>57</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>F1</name>
+                <packageName></packageName>
+                <script>Harmony.keypad.toggle()</script>
+                <command></command>
+                <keyCode>16777264</keyCode>
+                <keyModifier>0</keyModifier>
+            </Key>
         </KeyGroup>
     </KeyPackage>
     <ScriptPackage>
         <ScriptGroup isActive="yes" isFolder="yes">
             <name>Harmony</name>
             <packageName></packageName>
-            <script></script>
+            <script>-- If you use this, tell Kipposhi he's awesome!
+-- All the scripts are in lua files!</script>
             <eventHandlerList/>
             <Script isActive="yes" isFolder="no">
                 <name>load</name>
                 <packageName></packageName>
                 <script>-- Loads the script
-local _sep
-if string.char(getMudletHomeDir():byte()) == &quot;/&quot; then 
-    _sep = &quot;/&quot; 
-else
-    _sep = &quot;\\&quot; 
-end
+-- Everything here is done via lua scripts!
+if not Harmony then
+    local _sep
+    if string.char(getMudletHomeDir():byte()) == &quot;/&quot; then 
+        _sep = &quot;/&quot; 
+    else
+        _sep = &quot;\\&quot; 
+    end
 
-local scriptFile = getMudletHomeDir() .. _sep .. &quot;harmony&quot; .. _sep ..&quot;harmony.lua&quot;
-dofile(scriptFile)</script>
+    local scriptFile = getMudletHomeDir() .. _sep .. &quot;harmony&quot; .. _sep ..&quot;harmony.lua&quot;
+    dofile(scriptFile)
+end</script>
                 <eventHandlerList/>
             </Script>
             <ScriptGroup isActive="yes" isFolder="yes">
-                <name>Callbacks</name>
+                <name>Example Scripts</name>
                 <packageName></packageName>
-                <script></script>
+                <script>-- These are all examples of how to do things</script>
                 <eventHandlerList/>
-                <Script isActive="yes" isFolder="no">
-                    <name>Harmony.hunting.checkAttack</name>
-                    <packageName></packageName>
-                    <script></script>
-                    <eventHandlerList>
-                        <string>gmcp.Room.Info</string>
-                        <string>keneanung.bashing.targetList.firstChanged</string>
-                    </eventHandlerList>
-                </Script>
-                <Script isActive="yes" isFolder="no">
-                    <name>Harmony.mapping.arrived</name>
-                    <packageName></packageName>
-                    <script>
-</script>
-                    <eventHandlerList>
-                        <string>mmapper arrived</string>
-                    </eventHandlerList>
-                </Script>
-                <Script isActive="yes" isFolder="no">
-                    <name>Harmony.mapping.exploreNext</name>
-                    <packageName></packageName>
-                    <script></script>
-                    <eventHandlerList>
-                        <string>mmapper arrived</string>
-                    </eventHandlerList>
-                </Script>
-                <Script isActive="yes" isFolder="no">
-                    <name>Harmony.hunting.movedRooms</name>
-                    <packageName></packageName>
-                    <script></script>
-                    <eventHandlerList>
-                        <string>gmcp.Room.Info</string>
-                    </eventHandlerList>
-                </Script>
-                <Script isActive="yes" isFolder="no">
-                    <name>Harmony.mapping.updateRoom</name>
-                    <packageName></packageName>
-                    <script></script>
-                    <eventHandlerList>
-                        <string>gmcp.Room.Info</string>
-                    </eventHandlerList>
-                </Script>
             </ScriptGroup>
         </ScriptGroup>
     </ScriptPackage>
@@ -516,6 +437,296 @@ dofile(scriptFile)</script>
                         <integer>0</integer>
                     </regexCodePropertyList>
                 </Trigger>
+            </TriggerGroup>
+            <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>UI</name>
+                <script></script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList/>
+                <regexCodePropertyList/>
+                <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                    <name>Mapper</name>
+                    <script></script>
+                    <triggerType>0</triggerType>
+                    <conditonLineDelta>0</conditonLineDelta>
+                    <mStayOpen>0</mStayOpen>
+                    <mCommand></mCommand>
+                    <packageName></packageName>
+                    <mFgColor>#ff0000</mFgColor>
+                    <mBgColor>#ffff00</mBgColor>
+                    <mSoundFile></mSoundFile>
+                    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                    <regexCodeList>
+                        <string>return HarmonyUI and HarmonyUI.maps</string>
+                    </regexCodeList>
+                    <regexCodePropertyList>
+                        <integer>4</integer>
+                    </regexCodePropertyList>
+                    <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                        <name>Entering Wilderness</name>
+                        <script>Harmony.ui.maps.showWilderness()
+Harmony.ui.maps.inWilderness = true</script>
+                        <triggerType>0</triggerType>
+                        <conditonLineDelta>0</conditonLineDelta>
+                        <mStayOpen>0</mStayOpen>
+                        <mCommand></mCommand>
+                        <packageName></packageName>
+                        <mFgColor>#ff0000</mFgColor>
+                        <mBgColor>#ffff00</mBgColor>
+                        <mSoundFile></mSoundFile>
+                        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                        <regexCodeList>
+                            <string>You enter the wilderness.</string>
+                            <string>You enter the subdivision.</string>
+                        </regexCodeList>
+                        <regexCodePropertyList>
+                            <integer>0</integer>
+                            <integer>0</integer>
+                        </regexCodePropertyList>
+                    </Trigger>
+                    <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                        <name>Leaving Wilderness</name>
+                        <script>Harmony.ui.maps.showMap()
+Harmony.ui.maps.inWilderness = false</script>
+                        <triggerType>0</triggerType>
+                        <conditonLineDelta>0</conditonLineDelta>
+                        <mStayOpen>0</mStayOpen>
+                        <mCommand></mCommand>
+                        <packageName></packageName>
+                        <mFgColor>#ff0000</mFgColor>
+                        <mBgColor>#ffff00</mBgColor>
+                        <mSoundFile></mSoundFile>
+                        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                        <regexCodeList>
+                            <string>You leave the wilderness.</string>
+                            <string>You leave the subdivision.</string>
+                            <string>^You quickly utter \&quot;.*\&quot; and your wings flare with power before swiftly carrying you up to above the clouds over central sapience\.$</string>
+                        </regexCodeList>
+                        <regexCodePropertyList>
+                            <integer>0</integer>
+                            <integer>0</integer>
+                            <integer>1</integer>
+                        </regexCodePropertyList>
+                    </Trigger>
+                    <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                        <name>Capture Wilderness</name>
+                        <script></script>
+                        <triggerType>0</triggerType>
+                        <conditonLineDelta>0</conditonLineDelta>
+                        <mStayOpen>0</mStayOpen>
+                        <mCommand></mCommand>
+                        <packageName></packageName>
+                        <mFgColor>#ff0000</mFgColor>
+                        <mBgColor>#ffff00</mBgColor>
+                        <mSoundFile></mSoundFile>
+                        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                        <regexCodeList>
+                            <string>return HarmonyUI.maps.inWilderness</string>
+                        </regexCodeList>
+                        <regexCodePropertyList>
+                            <integer>4</integer>
+                        </regexCodePropertyList>
+                        <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                            <name>Capture Wilderness Triggers</name>
+                            <script></script>
+                            <triggerType>0</triggerType>
+                            <conditonLineDelta>0</conditonLineDelta>
+                            <mStayOpen>0</mStayOpen>
+                            <mCommand></mCommand>
+                            <packageName></packageName>
+                            <mFgColor>#ff0000</mFgColor>
+                            <mBgColor>#ffff00</mBgColor>
+                            <mSoundFile></mSoundFile>
+                            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                            <regexCodeList>
+                                <string>return not HarmonyUI.maps.capturedWilderness</string>
+                            </regexCodeList>
+                            <regexCodePropertyList>
+                                <integer>4</integer>
+                            </regexCodePropertyList>
+                            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="yes" isColorTriggerFg="yes" isColorTriggerBg="yes">
+                                <name>End Capture On Color</name>
+                                <script>Harmony.ui.maps.capturingWilderness = false
+Harmony.ui.maps.capturedWilderness = true
+</script>
+                                <triggerType>0</triggerType>
+                                <conditonLineDelta>0</conditonLineDelta>
+                                <mStayOpen>0</mStayOpen>
+                                <mCommand></mCommand>
+                                <packageName></packageName>
+                                <mFgColor>#ff0000</mFgColor>
+                                <mBgColor>#ffff00</mBgColor>
+                                <mSoundFile></mSoundFile>
+                                <colorTriggerFgColor>#008080</colorTriggerFgColor>
+                                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                                <regexCodeList>
+                                    <string>FG14BG2</string>
+                                    <string>You may LEAVE WILDERNESS here.</string>
+                                </regexCodeList>
+                                <regexCodePropertyList>
+                                    <integer>6</integer>
+                                    <integer>0</integer>
+                                </regexCodePropertyList>
+                            </Trigger>
+                            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                                <name>Wilderness Capturing</name>
+                                <script></script>
+                                <triggerType>0</triggerType>
+                                <conditonLineDelta>0</conditonLineDelta>
+                                <mStayOpen>0</mStayOpen>
+                                <mCommand></mCommand>
+                                <packageName></packageName>
+                                <mFgColor>#ff0000</mFgColor>
+                                <mBgColor>#ffff00</mBgColor>
+                                <mSoundFile></mSoundFile>
+                                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                                <regexCodeList>
+                                    <string>return HarmonyUI.maps.capturingWilderness</string>
+                                </regexCodeList>
+                                <regexCodePropertyList>
+                                    <integer>4</integer>
+                                </regexCodePropertyList>
+                                <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                                    <name>Capture Line</name>
+                                    <script>selectCurrentLine()
+copy()
+deleteLine()
+appendBuffer(&quot;wildernessMap&quot;)</script>
+                                    <triggerType>0</triggerType>
+                                    <conditonLineDelta>0</conditonLineDelta>
+                                    <mStayOpen>0</mStayOpen>
+                                    <mCommand></mCommand>
+                                    <packageName></packageName>
+                                    <mFgColor>#ff0000</mFgColor>
+                                    <mBgColor>#ffff00</mBgColor>
+                                    <mSoundFile></mSoundFile>
+                                    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                                    <regexCodeList>
+                                        <string>return HarmonyUI.maps.capturingWilderness</string>
+                                    </regexCodeList>
+                                    <regexCodePropertyList>
+                                        <integer>4</integer>
+                                    </regexCodePropertyList>
+                                </Trigger>
+                            </Trigger>
+                            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                                <name>Not Capturing Wilderness</name>
+                                <script></script>
+                                <triggerType>0</triggerType>
+                                <conditonLineDelta>0</conditonLineDelta>
+                                <mStayOpen>0</mStayOpen>
+                                <mCommand></mCommand>
+                                <packageName></packageName>
+                                <mFgColor>#ff0000</mFgColor>
+                                <mBgColor>#ffff00</mBgColor>
+                                <mSoundFile></mSoundFile>
+                                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                                <regexCodeList>
+                                    <string>return not HarmonyUI.maps.capturingWilderness and not HarmonyUI.maps.capturedWilderness</string>
+                                </regexCodeList>
+                                <regexCodePropertyList>
+                                    <integer>4</integer>
+                                </regexCodePropertyList>
+                                <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="yes" isColorTriggerFg="yes" isColorTriggerBg="yes">
+                                    <name>On Room Name</name>
+                                    <script>Harmony.ui.maps.capturingWilderness = true
+clearUserWindow(&quot;wildernessMap&quot;)</script>
+                                    <triggerType>0</triggerType>
+                                    <conditonLineDelta>0</conditonLineDelta>
+                                    <mStayOpen>0</mStayOpen>
+                                    <mCommand></mCommand>
+                                    <packageName></packageName>
+                                    <mFgColor>#ff0000</mFgColor>
+                                    <mBgColor>#ffff00</mBgColor>
+                                    <mSoundFile></mSoundFile>
+                                    <colorTriggerFgColor>#808000</colorTriggerFgColor>
+                                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                                    <regexCodeList>
+                                        <string>FG8BG2</string>
+                                        <string>^Flying above .*$</string>
+                                    </regexCodeList>
+                                    <regexCodePropertyList>
+                                        <integer>6</integer>
+                                        <integer>1</integer>
+                                    </regexCodePropertyList>
+                                </Trigger>
+                            </Trigger>
+                        </Trigger>
+                    </TriggerGroup>
+                    <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                        <name>Reset Capturing</name>
+                        <script>Harmony.ui.maps.capturedWilderness = false</script>
+                        <triggerType>0</triggerType>
+                        <conditonLineDelta>0</conditonLineDelta>
+                        <mStayOpen>0</mStayOpen>
+                        <mCommand></mCommand>
+                        <packageName></packageName>
+                        <mFgColor>#ff0000</mFgColor>
+                        <mBgColor>#ffff00</mBgColor>
+                        <mSoundFile></mSoundFile>
+                        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                        <regexCodeList>
+                            <string>return HarmonyUI.maps.capturedWilderness and isPrompt()</string>
+                        </regexCodeList>
+                        <regexCodePropertyList>
+                            <integer>4</integer>
+                        </regexCodePropertyList>
+                    </Trigger>
+                </TriggerGroup>
+                <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                    <name>Bottom Bar</name>
+                    <script></script>
+                    <triggerType>0</triggerType>
+                    <conditonLineDelta>0</conditonLineDelta>
+                    <mStayOpen>0</mStayOpen>
+                    <mCommand></mCommand>
+                    <packageName></packageName>
+                    <mFgColor>#ff0000</mFgColor>
+                    <mBgColor>#ffff00</mBgColor>
+                    <mSoundFile></mSoundFile>
+                    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                    <regexCodeList/>
+                    <regexCodePropertyList/>
+                    <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                        <name>Update</name>
+                        <script>Harmony.ui.callbacks.updateBottomBar()</script>
+                        <triggerType>0</triggerType>
+                        <conditonLineDelta>0</conditonLineDelta>
+                        <mStayOpen>0</mStayOpen>
+                        <mCommand></mCommand>
+                        <packageName></packageName>
+                        <mFgColor>#ff0000</mFgColor>
+                        <mBgColor>#ffff00</mBgColor>
+                        <mSoundFile></mSoundFile>
+                        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                        <regexCodeList>
+                            <string>return isPrompt</string>
+                        </regexCodeList>
+                        <regexCodePropertyList>
+                            <integer>4</integer>
+                        </regexCodePropertyList>
+                    </Trigger>
+                </TriggerGroup>
             </TriggerGroup>
         </TriggerGroup>
     </TriggerPackage>
