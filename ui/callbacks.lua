@@ -32,8 +32,8 @@ function Harmony.ui.callbacks.bashingUpdated(event, what, setting)
         Harmony.ui.settingsWindow.buttons["togglePickup"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
 end
-registerAnonymousEventHandler("keneanung.bashing.loaded", "Harmony.mapper.bashingUpdated")
-registerAnonymousEventHandler("keneanung.bashing.settings.changed", "Harmony.mapper.bashingUpdated")
+registerAnonymousEventHandler("keneanung.bashing.loaded", "Harmony.ui.callbacks.bashingUpdated")
+registerAnonymousEventHandler("keneanung.bashing.settings.changed", "Harmony.ui.callbacks.bashingUpdated")
 
 function Harmony.ui.callbacks.exploringUpdated(event, what, setting)
     if Harmony.mapping.exploring then
@@ -42,7 +42,7 @@ function Harmony.ui.callbacks.exploringUpdated(event, what, setting)
         Harmony.ui.settingsWindow.buttons["toggleExploring"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
 end
-registerAnonymousEventHandler("gmcp.Comm.Channel.Text", "Harmony.mapper.exploringChanged")
+registerAnonymousEventHandler("gmcp.Comm.Channel.Text", "Harmony.ui.callbacks.exploringChanged")
 
 function Harmony.ui.callbacks.toggleBashing()
     keneanung.bashing.toggle("enabled", "Bashing")

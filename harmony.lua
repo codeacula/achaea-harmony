@@ -76,7 +76,13 @@ Harmony.addCommand("mapping", "har unexplored", "Shows all known unexplored room
 Harmony.addCommand("mapping", "har locked <roomid>", "Marks the provided room id as locked")
 Harmony.addCommand("mapping", "har hide <roomid>", "Puts the provided room id in area -1, effectively hiding it")
 Harmony.addCommand("mapping", "har er", "Looks for the first unvisited, unlocked room by id and tells the mapper to go there")
+Harmony.addCommand("system", "har", "This. How did you find it??")
 Harmony.addCommand("system", "har reset", "Resets and reruns the harmony scripts")
+Harmony.addCommand("ui", "harui border <top|bottom|right|left> <number>", "How big do you want the border on that side?")
+Harmony.addCommand("ui", "harui border <top|bottom|right|left> <on|off>", "Turns on or off the border")
+Harmony.addCommand("ui", "harui reset", "Resets your Mudlet profile. Only doing this if EVERYTHING has gone bad.")
+Harmony.addCommand("ui", "harui save", "Saves the current UI settings")
+Harmony.addCommand("ui", "harui unload", "Attempts to unload the UI. Doesn't always work.")
 
 raiseEvent("Harmony.loaded")
 Harmony.say("Harmony loaded")

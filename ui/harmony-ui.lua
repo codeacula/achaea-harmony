@@ -73,6 +73,7 @@ function Harmony.ui.load()
     Harmony.ui.loadFile("chat.lua")
     Harmony.ui.loadFile("settings.lua")
     Harmony.ui.loadFile("maps.lua")
+    Harmony.ui.loadFile("top-buttons.lua")
 
     if not Harmony.ui.settings.sides.top then
         Harmony.ui.side.top.container:hide()
@@ -120,11 +121,34 @@ end
 function Harmony.ui.setBorder(pos, amount)
     if not Harmony.ui.settings.border[pos] then
         Harmony.ui.say(("There's no border position for %s"):format(pos))
+        return
     end
 
     Harmony.ui.settings.border[pos] = tonumber(amount)
 
     Harmony.ui.say(("%s border set to %spx"):format(pos, amount))
+    Harmony.ui.saveSettings()
+    Harmony.ui.unload()
+    Harmony.ui.load()
+end
+
+function Harmony.ui.toggleBorder(pos, setting)
+    if Harmony.ui.settings.sides[pos] == nil then
+        Harmony.ui.say(("There's no side for %s"):format(pos))
+        return
+    end
+
+    if setting == "on" then
+        Harmony.ui.settings.sides[pos] = true
+        Harmony.ui.say(("%s border turned on"):format(pos))
+    elseif setting == "off" then
+        Harmony.ui.settings.sides[pos] = false
+        Harmony.ui.say(("%s border turned off"):format(pos))
+    else
+        Harmony.ui.say("Please provide either on or off.")
+        return
+    end
+
     Harmony.ui.saveSettings()
     Harmony.ui.unload()
     Harmony.ui.load()
@@ -173,7 +197,7 @@ if not io.exists(Harmony.ui.getPath("settings.json")) then
             "Clans",
             "House"
         },
-        topButtonwidth = 20
+        topButtonwidth = 200
     }
 
     Harmony.ui.saveSettings()

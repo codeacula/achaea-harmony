@@ -61,4 +61,4 @@ function Harmony.hunting.toggleAutoAttack()
     raiseEvent("Harmony.hunter.autoAttackChanged", Harmony.hunting.attackOnUpdate)
 end
 
-Harmony.hunting = Harmony.hunting
+raiseEvent("Harmony.hunter.loaded")

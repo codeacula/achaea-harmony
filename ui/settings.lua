@@ -75,6 +75,7 @@ Harmony.ui.settingsWindow.addButton("toggleAutoexplore", "Autoexploring", "Harmo
 
 Harmony.ui.settingsWindow.addButton("toggleVdefsBasic", "Basic Defs", "Harmony.ui.callbacks.vdefsBasic", 2)
 Harmony.ui.settingsWindow.addButton("toggleVdefsCombat", "Combat Defs", "Harmony.ui.callbacks.vdefsCombat", 2)
+Harmony.ui.settingsWindow.addButton("toggleVdefsRaid", "Raid Defs", "Harmony.ui.callbacks.vdefsRaid", 2)
 Harmony.ui.settingsWindow.addButton("toggleVdefsEmpty", "Empty Defs", "Harmony.ui.callbacks.vdefsEmpty", 2)
 
 -- Update the button states
