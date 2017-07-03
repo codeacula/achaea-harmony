@@ -140,8 +140,6 @@ function Harmony.ui.unload()
     Harmony.ui.windows = {}
 end
 
-Harmony.ui.say("Harmony.ui resetting.")
-
 if not io.exists(Harmony.ui.getPath("settings.json")) then
     Harmony.ui.settings = {
         border = {
@@ -182,5 +180,3 @@ if not io.exists(Harmony.ui.getPath("settings.json")) then
 else
     Harmony.ui.getSettings()
 end
-
-Harmony.ui.load()

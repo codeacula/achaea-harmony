@@ -78,8 +78,6 @@ Harmony.ui.settingsWindow.addButton("toggleVdefsCombat", "Combat Defs", "Harmony
 Harmony.ui.settingsWindow.addButton("toggleVdefsEmpty", "Empty Defs", "Harmony.ui.callbacks.vdefsEmpty", 2)
 
 -- Update the button states
-Harmony.ui.callbacks.bashingUpdated()
-Harmony.ui.callbacks.autoAttackUpdated()
 Harmony.ui.callbacks.autoexploringUpdated()
 Harmony.ui.callbacks.exploringUpdated()
 

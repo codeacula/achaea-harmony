@@ -80,3 +80,5 @@ Harmony.addCommand("system", "har reset", "Resets and reruns the harmony scripts
 
 raiseEvent("Harmony.loaded")
 Harmony.say("Harmony loaded")
+
+Harmony.ui.load()

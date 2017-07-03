@@ -1,4 +1,4 @@
-local barWidth = Harmony.ui.window.width - Harmony.ui.settings.border.left
+local barWidth = Harmony.ui.window.width
 local xpos = 0
 
 if Harmony.ui.settings.sides.left then

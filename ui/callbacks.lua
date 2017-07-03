@@ -7,6 +7,7 @@ function Harmony.ui.callbacks.autoAttackUpdated(event, what, setting)
         Harmony.ui.settingsWindow.buttons["toggleAutoattack"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
 end
+registerAnonymousEventHandler("Harmony.hunter.loaded", "Harmony.ui.callbacks.autoAttackUpdated")
 registerAnonymousEventHandler("Harmony.hunter.autoAttackChanged", "Harmony.ui.callbacks.autoAttackUpdated")
 
 function Harmony.ui.callbacks.autoexploringUpdated(event, what, setting)
@@ -31,6 +32,7 @@ function Harmony.ui.callbacks.bashingUpdated(event, what, setting)
         Harmony.ui.settingsWindow.buttons["togglePickup"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
 end
+registerAnonymousEventHandler("keneanung.bashing.loaded", "Harmony.mapper.bashingUpdated")
 registerAnonymousEventHandler("keneanung.bashing.settings.changed", "Harmony.mapper.bashingUpdated")
 
 function Harmony.ui.callbacks.exploringUpdated(event, what, setting)
