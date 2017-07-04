@@ -7,8 +7,8 @@ function Harmony.ui.callbacks.autoAttackUpdated(event, what, setting)
         Harmony.ui.settingsWindow.buttons["toggleAutoattack"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
 end
-registerAnonymousEventHandler("Harmony.hunter.loaded", "Harmony.ui.callbacks.autoAttackUpdated")
 registerAnonymousEventHandler("Harmony.hunter.autoAttackChanged", "Harmony.ui.callbacks.autoAttackUpdated")
+registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.autoAttackUpdated")
 
 function Harmony.ui.callbacks.autoexploringUpdated(event, what, setting)
     if Harmony.mapping.autoExplore then
@@ -18,8 +18,11 @@ function Harmony.ui.callbacks.autoexploringUpdated(event, what, setting)
     end
 end
 registerAnonymousEventHandler("Harmony.mapper.autoexploringChanged", "Harmony.ui.callbacks.autoexploringUpdated")
+registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.autoexploringUpdated")
 
 function Harmony.ui.callbacks.bashingUpdated(event, what, setting)
+    if not keneanung or not keneanung.bashing then return end
+
     if keneanung.bashing.configuration.enabled then
         Harmony.ui.settingsWindow.buttons["toggleBashing"]:setStyleSheet(Harmony.ui.styles.buttonActive)
     else
@@ -34,6 +37,7 @@ function Harmony.ui.callbacks.bashingUpdated(event, what, setting)
 end
 registerAnonymousEventHandler("keneanung.bashing.loaded", "Harmony.ui.callbacks.bashingUpdated")
 registerAnonymousEventHandler("keneanung.bashing.settings.changed", "Harmony.ui.callbacks.bashingUpdated")
+registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.bashingUpdated")
 
 function Harmony.ui.callbacks.exploringUpdated(event, what, setting)
     if Harmony.mapping.exploring then

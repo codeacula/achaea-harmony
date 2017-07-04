@@ -7,9 +7,6 @@ else
     _sep = "\\" 
 end
 
-gmod.disableModule("harmony", "Comm.Channel")
-gmod.enableModule("harmony", "Comm.Channel")
-
 Harmony = Harmony or {}
 
 raiseEvent("Harmony.loading")
@@ -60,6 +57,12 @@ function Harmony.say(text)
     cecho("\n <WhiteSmoke>|<DarkGreen>Harmony<WhiteSmoke>| <reset>"..text.."\n")
 end
 
+function Harmony.turnOnChat()
+    gmod.enableModule("harmony", "Comm.Channel")
+    sendGMCP("Core.Supports.Add [ \"Comm.Channel 1\" ]")
+    Harmony.say("Trying to make the chat start.")
+end
+
 Harmony.loadFile("keypad.lua")
 Harmony.loadFile("hunting.lua")
 Harmony.loadFile("mapping.lua")
@@ -77,6 +80,7 @@ Harmony.addCommand("mapping", "har locked <roomid>", "Marks the provided room id
 Harmony.addCommand("mapping", "har hide <roomid>", "Puts the provided room id in area -1, effectively hiding it")
 Harmony.addCommand("mapping", "har er", "Looks for the first unvisited, unlocked room by id and tells the mapper to go there")
 Harmony.addCommand("system", "har", "This. How did you find it??")
+Harmony.addCommand("system", "har chat", "Tries to make Mudlet start accepting GMCP chat")
 Harmony.addCommand("system", "har reset", "Resets and reruns the harmony scripts")
 Harmony.addCommand("ui", "harui border <top|bottom|right|left> <number>", "How big do you want the border on that side?")
 Harmony.addCommand("ui", "harui border <top|bottom|right|left> <on|off>", "Turns on or off the border")
@@ -88,3 +92,5 @@ raiseEvent("Harmony.loaded")
 Harmony.say("Harmony loaded")
 
 Harmony.ui.load()
+gmod.enableModule("harmony", "Comm.Channel")
+

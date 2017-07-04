@@ -21,21 +21,9 @@
                     <packageName></packageName>
                     <regex></regex>
                     <Alias isActive="yes" isFolder="no">
-                        <name>Load the UI</name>
-                        <script>if HarmonyUI then
-    HarmonyUI.unload()
-    HarmonyUI = nil
-end
-
-HarmonyUI_loadUI()</script>
-                        <command></command>
-                        <packageName></packageName>
-                        <regex>^harui load$</regex>
-                    </Alias>
-                    <Alias isActive="yes" isFolder="no">
                         <name>Save UI</name>
-                        <script>if HarmonyUI then
-    HarmonyUI.saveSettings()
+                        <script>if Harmony.ui then
+    Harmony.ui.saveSettings()
 end</script>
                         <command></command>
                         <packageName></packageName>
@@ -43,7 +31,7 @@ end</script>
                     </Alias>
                     <Alias isActive="yes" isFolder="no">
                         <name>Unload the UI</name>
-                        <script>HarmonyUI.unload()</script>
+                        <script>Harmony.ui.unload()</script>
                         <command></command>
                         <packageName></packageName>
                         <regex>^harui unload$</regex>
@@ -66,10 +54,17 @@ send(&quot;look&quot;)</script>
                     <regex></regex>
                     <Alias isActive="yes" isFolder="no">
                         <name>Set border</name>
-                        <script>HarmonyUI.setBorder(matches[2], matches[3])</script>
+                        <script>Harmony.ui.setBorder(matches[2], matches[3])</script>
                         <command></command>
                         <packageName></packageName>
                         <regex>^harui border (top|bottom|right|left) (\d+)$</regex>
+                    </Alias>
+                    <Alias isActive="yes" isFolder="no">
+                        <name>Toggle Border</name>
+                        <script>Harmony.ui.toggleBorder(matches[2], matches[3])</script>
+                        <command></command>
+                        <packageName></packageName>
+                        <regex>^harui border (top|bottom|right|left) (on|off)$</regex>
                     </Alias>
                 </AliasGroup>
             </AliasGroup>
@@ -181,7 +176,9 @@ else
 end
 
 local scriptFile = getMudletHomeDir() .. _sep .. &quot;harmony&quot; .. _sep ..&quot;harmony.lua&quot;
-dofile(scriptFile)</script>
+dofile(scriptFile)
+raiseEvent(&quot;keneanung.bashing.loaded&quot;)
+Harmony.ui.callbacks.autoAttackUpdated()</script>
                 <command></command>
                 <packageName></packageName>
                 <regex>^har reset$</regex>
@@ -195,7 +192,7 @@ dofile(scriptFile)</script>
             </Alias>
         </AliasGroup>
     </AliasPackage>
-    <KeyPackage>
+   <KeyPackage>
         <KeyGroup isActive="yes" isFolder="yes">
             <name>Harmony</name>
             <packageName></packageName>
@@ -467,15 +464,15 @@ end</script>
                     <colorTriggerFgColor>#000000</colorTriggerFgColor>
                     <colorTriggerBgColor>#000000</colorTriggerBgColor>
                     <regexCodeList>
-                        <string>return HarmonyUI and HarmonyUI.maps</string>
+                        <string>return Harmony.ui and Harmony.ui.maps</string>
                     </regexCodeList>
                     <regexCodePropertyList>
                         <integer>4</integer>
                     </regexCodePropertyList>
                     <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
                         <name>Entering Wilderness</name>
-                        <script>HarmonyUI.maps.showWilderness()
-HarmonyUI.maps.inWilderness = true</script>
+                        <script>Harmony.ui.maps.showWilderness()
+Harmony.ui.maps.inWilderness = true</script>
                         <triggerType>0</triggerType>
                         <conditonLineDelta>0</conditonLineDelta>
                         <mStayOpen>0</mStayOpen>
@@ -534,7 +531,7 @@ Harmony.ui.maps.inWilderness = false</script>
                         <colorTriggerFgColor>#000000</colorTriggerFgColor>
                         <colorTriggerBgColor>#000000</colorTriggerBgColor>
                         <regexCodeList>
-                            <string>return HarmonyUI.maps.inWilderness</string>
+                            <string>return Harmony.ui.maps.inWilderness</string>
                         </regexCodeList>
                         <regexCodePropertyList>
                             <integer>4</integer>
@@ -553,7 +550,7 @@ Harmony.ui.maps.inWilderness = false</script>
                             <colorTriggerFgColor>#000000</colorTriggerFgColor>
                             <colorTriggerBgColor>#000000</colorTriggerBgColor>
                             <regexCodeList>
-                                <string>return not HarmonyUI.maps.capturedWilderness</string>
+                                <string>return not Harmony.ui.maps.capturedWilderness</string>
                             </regexCodeList>
                             <regexCodePropertyList>
                                 <integer>4</integer>
@@ -596,7 +593,7 @@ Harmony.ui.maps.capturedWilderness = true
                                 <colorTriggerFgColor>#000000</colorTriggerFgColor>
                                 <colorTriggerBgColor>#000000</colorTriggerBgColor>
                                 <regexCodeList>
-                                    <string>return HarmonyUI.maps.capturingWilderness</string>
+                                    <string>return Harmony.ui.maps.capturingWilderness</string>
                                 </regexCodeList>
                                 <regexCodePropertyList>
                                     <integer>4</integer>
@@ -618,7 +615,7 @@ appendBuffer(&quot;wildernessMap&quot;)</script>
                                     <colorTriggerFgColor>#000000</colorTriggerFgColor>
                                     <colorTriggerBgColor>#000000</colorTriggerBgColor>
                                     <regexCodeList>
-                                        <string>return HarmonyUI.maps.capturingWilderness</string>
+                                        <string>return Harmony.ui.maps.capturingWilderness</string>
                                     </regexCodeList>
                                     <regexCodePropertyList>
                                         <integer>4</integer>
@@ -639,7 +636,7 @@ appendBuffer(&quot;wildernessMap&quot;)</script>
                                 <colorTriggerFgColor>#000000</colorTriggerFgColor>
                                 <colorTriggerBgColor>#000000</colorTriggerBgColor>
                                 <regexCodeList>
-                                    <string>return not HarmonyUI.maps.capturingWilderness and not HarmonyUI.maps.capturedWilderness</string>
+                                    <string>return not Harmony.ui.maps.capturingWilderness and not Harmony.ui.maps.capturedWilderness</string>
                                 </regexCodeList>
                                 <regexCodePropertyList>
                                     <integer>4</integer>
@@ -684,7 +681,7 @@ clearUserWindow(&quot;wildernessMap&quot;)</script>
                         <colorTriggerFgColor>#000000</colorTriggerFgColor>
                         <colorTriggerBgColor>#000000</colorTriggerBgColor>
                         <regexCodeList>
-                            <string>return HarmonyUI.maps.capturedWilderness and isPrompt()</string>
+                            <string>return Harmony.ui.maps.capturedWilderness and isPrompt()</string>
                         </regexCodeList>
                         <regexCodePropertyList>
                             <integer>4</integer>

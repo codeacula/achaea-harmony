@@ -2,6 +2,13 @@ function px(amount)
     return amount.."px"
 end
 
+local _sep
+if string.char(getMudletHomeDir():byte()) == "/" then 
+    _sep = "/" 
+else
+    _sep = "\\" 
+end
+
 Harmony.ui = {}
 Harmony.ui.settings = {}
 Harmony.ui.side = {

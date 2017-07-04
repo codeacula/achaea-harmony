@@ -1,59 +1,77 @@
 Harmony.keypad = {}
 
-Harmony.keypad.keys = {
-	["/"] = {},
-	["*"] = {},
-	["-"] = {},
-	["+"] = {},
-	["."] = {},
-	["0"] = {},
-	["1"] = {},
-	["2"] = {},
-	["3"] = {},
-	["4"] = {},
-	["5"] = {},
-	["6"] = {},
-	["7"] = {},
-	["8"] = {},
-	["9"] = {},
-}
+Harmony.keypad.currentTactic = nil
+
+Harmony.keypad.combatMode = false
 
 Harmony.keypad.keysToDirections = {
-	["/"] = "in",
-	["*"] = "out",
-	["-"] = "up",
-	["+"] = "down",
-	["."] = "ih",
-	["0"] = "map",
-	["1"] = "sw",
-	["2"] = "s",
-	["3"] = "se",
-	["4"] = "w",
-	["5"] = "look",
-	["6"] = "e",
-	["7"] = "nw",
-	["8"] = "n",
-	["9"] = "ne",
+    ["/"] = "in",
+    ["*"] = "out",
+    ["-"] = "up",
+    ["+"] = "down",
+    ["."] = "ih",
+    ["0"] = "map",
+    ["1"] = "sw",
+    ["2"] = "s",
+    ["3"] = "se",
+    ["4"] = "w",
+    ["5"] = "look",
+    ["6"] = "e",
+    ["7"] = "nw",
+    ["8"] = "n",
+    ["9"] = "ne",
 }
 
+function Harmony.keypad.toggleKeypad()
+	if Harmony.keypad.combatMode then
+		Harmony.say("<yellow>Combat Keypad<reset> turned <red>off.")
+	else
+		Harmony.say("<yellow>Combat Keypad<reset> turned <green>on.")
+	end
+	Harmony.keypad.combatMode = not Harmony.keypad.combatMode
+	raiseEvent("Harmony.keypadChanged")
+end
+
 Harmony.keypad.processKey = function(key)
-	local ks = Harmony.keypad
-	if not ks.keys[key] or #ks.keys[key] == 0 then
-		send(ks.keysToDirections[key])
-		return
-	end
+    local ks = Harmony.keypad
 
-	local sendDir = true
+    if not Harmony.keypad.combatMode then
+        send(ks.keysToDirections[key])
+        return
+    end
 
-	for _, callback in ipairs(ks.keys[key]) do
-		local result = callback()
+    if not ks.currentTactic then
+        Harmony.say(("No tactic set! Sending direction."):format(key))
+        send(ks.keysToDirections[key])
+        return
+    end
 
-		if result ~= nil and result == false then
-			local sendDir = false
-		end
-	end
+    if not ks.currentTactic[key] then
+        Harmony.say(("Nothing bound to %s for combat, sending direction."):format(key))
+        send(ks.keysToDirections[key])
+        return
+    end
 
-	if not sendDir then return end
+    if not Harmony.target then
+        Harmony.say(("No target set! Sending direction."):format(key))
+        send(ks.keysToDirections[key])
+        return
+    end
 
-	send(ks.keysToDirections[key])
+    if type(ks.currentTactic[key]) == "string" then
+        local command = ks.currentTactic[key]:gsub("&tar", Harmony.target)
+        send(command)
+        return
+    elseif type(ks.currentTactic[key]) == "function" then
+        local result = ks.currentTactic[key](Harmony.target)
+
+        if result then send(result) end
+        return
+    elseif type(ks.currentTactic[key]) == "table" then
+    	for _, string in ipairs(ks.currentTactic[key]) do
+	        local command = string:gsub("&tar", Harmony.target)
+        	send(command)
+    	end
+        return
+    end
 end
