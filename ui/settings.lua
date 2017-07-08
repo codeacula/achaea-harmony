@@ -78,6 +78,9 @@ Harmony.ui.settingsWindow.addButton("toggleVdefsCombat", "Combat Defs", "Harmony
 Harmony.ui.settingsWindow.addButton("toggleVdefsRaid", "Raid Defs", "Harmony.ui.callbacks.vdefsRaid", 2)
 Harmony.ui.settingsWindow.addButton("toggleVdefsEmpty", "Empty Defs", "Harmony.ui.callbacks.vdefsEmpty", 2)
 
+Harmony.ui.settingsWindow.addButton("toggleFollowLeader", "Follow Raid", "Harmony.raid.toggleFollowing", 3)
+Harmony.ui.settingsWindow.addButton("toggleCallTarget", "Call Raid", "Harmony.raid.toggleLeading", 3)
+
 -- Update the button states
 Harmony.ui.callbacks.autoexploringUpdated()
 Harmony.ui.callbacks.exploringUpdated()

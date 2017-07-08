@@ -52,24 +52,24 @@ Harmony.keypad.processKey = function(key)
         return
     end
 
-    if not Harmony.target then
+    if not Harmony.target.name then
         Harmony.say(("No target set! Sending direction."):format(key))
         send(ks.keysToDirections[key])
         return
     end
 
     if type(ks.currentTactic[key]) == "string" then
-        local command = ks.currentTactic[key]:gsub("&tar", Harmony.target)
+        local command = ks.currentTactic[key]:gsub("&tar", Harmony.target.name)
         send(command)
         return
     elseif type(ks.currentTactic[key]) == "function" then
-        local result = ks.currentTactic[key](Harmony.target)
+        local result = ks.currentTactic[key](Harmony.target.name)
 
         if result then send(result) end
         return
     elseif type(ks.currentTactic[key]) == "table" then
     	for _, string in ipairs(ks.currentTactic[key]) do
-	        local command = string:gsub("&tar", Harmony.target)
+	        local command = string:gsub("&tar", Harmony.target.name)
         	send(command)
     	end
         return

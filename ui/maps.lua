@@ -14,6 +14,7 @@ Harmony.ui.maps.mudletMap = Harmony.ui.mapper({
 
 Harmony.ui.maps.capturedWilderness = false
 Harmony.ui.maps.capturingWilderness = false
+Harmony.ui.maps.ignorePrompt = false
 Harmony.ui.maps.inWilderness = false
 
 Harmony.ui.maps.wildernessMap = Harmony.ui.console({
@@ -27,8 +28,10 @@ Harmony.ui.maps.wildernessMap:setFontSize(11)
 function Harmony.ui.maps.activateMap(name)
     if name == "Wilderness" then
         Harmony.ui.maps.showWilderness()
+        Harmony.ui.maps.inWilderness = true
     else
         Harmony.ui.maps.showMap()
+        Harmony.ui.maps.inWilderness = false
     end
 end
 

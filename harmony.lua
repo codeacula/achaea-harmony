@@ -11,6 +11,7 @@ Harmony = Harmony or {}
 
 raiseEvent("Harmony.loading")
 
+Harmony.announceChannels = { "pt", "art" }
 Harmony.commandGroups = {}
 Harmony.commandGroupCache = {}
 
@@ -26,6 +27,12 @@ function Harmony.addCommand(group, comm, desc)
     end
 
     table.insert(Harmony.commandGroupCache[group].commands, { command = comm, desc = desc })
+end
+
+function Harmony.announce(text)
+    for _, channel in ipairs(Moon.announceChannels) do
+        send(("%s %s"):format(channel, text))
+    end
 end
 
 function Harmony.getPath(fileName)
@@ -64,9 +71,13 @@ function Harmony.turnOnChat()
 end
 
 Harmony.loadFile("keypad.lua")
+Harmony.loadFile("tactics.lua")
 Harmony.loadFile("hunting.lua")
 Harmony.loadFile("mapping.lua")
 Harmony.loadFile("refills.lua")
+Harmony.loadFile("combat.lua")
+Harmony.loadFile("target.lua")
+Harmony.loadFile("raid.lua")
 
 -- Load UI
 Harmony.loadFile("ui".._sep.."harmony-ui.lua")

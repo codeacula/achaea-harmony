@@ -186,6 +186,7 @@ if not io.exists(Harmony.ui.getPath("settings.json")) then
             armytell = "City",
             ct = "City",
             ["^clt%d+$"] = "Clans",
+            gt = "Party",
             hnt = "House",
             ht = "House",
             party = "Party"

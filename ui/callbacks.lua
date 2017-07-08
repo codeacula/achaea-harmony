@@ -48,6 +48,13 @@ function Harmony.ui.callbacks.exploringUpdated(event, what, setting)
 end
 registerAnonymousEventHandler("gmcp.Comm.Channel.Text", "Harmony.ui.callbacks.exploringChanged")
 
+function Harmony.ui.callbacks.printTarget()
+    if not Harmony.target.name then return end
+
+    Harmony.ui.side.bottom.console:cecho(("Target: <red>%s<reset> "):format(Harmony.target.name))
+end
+registerAnonymousEventHandler("Harmony.ui.updateBottomBarPre", "Harmony.ui.callbacks.printTarget")
+
 function Harmony.ui.callbacks.toggleBashing()
     keneanung.bashing.toggle("enabled", "Bashing")
 end
@@ -84,6 +91,26 @@ function Harmony.ui.callbacks.updateChat()
     end
 end
 registerAnonymousEventHandler("gmcp.Comm.Channel.Text", "Harmony.ui.callbacks.updateChat")
+
+function Harmony.ui.callbacks.updateFollowing()
+    if Harmony.raid.following then
+        Harmony.ui.ettingsWindow.buttons.toggleFollowLeader:setStyleSheet(Harmony.ui.styles.buttonActive)
+    else
+        Harmony.ui.settingsWindow.buttons.toggleFollowLeader:setStyleSheet(Harmony.ui.styles.buttonInactive)
+    end
+end
+registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.updateFollowing")
+registerAnonymousEventHandler("Harmony.raid.followingUpdated", "Harmony.ui.callbacks.updateFollowing")
+
+function Harmony.ui.callbacks.updateLeading()
+    if Harmony.raid.leading then
+        Harmony.ui.settingsWindow.buttons.toggleCallTarget:setStyleSheet(Harmony.ui.styles.buttonActive)
+    else
+        Harmony.ui.settingsWindow.buttons.toggleCallTarget:setStyleSheet(Harmony.ui.styles.buttonInactive)
+    end
+end
+registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.updateLeading")
+registerAnonymousEventHandler("Harmony.raid.leadingUpdated", "Harmony.ui.callbacks.updateLeading")
 
 function Harmony.ui.callbacks.updateTopBar()
     clearUserWindow("topConsole")
