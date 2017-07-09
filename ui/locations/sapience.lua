@@ -156,3 +156,8 @@ Harmony.ui.side.top.addFlyoutChild(villageLocations, "tasurke", "Tasur'ke", "mmp
 Harmony.ui.side.top.addFlyoutChild(villageLocations, "thraasi", "Thraasi", "mmp.gotoRoom", 35703)
 Harmony.ui.side.top.addFlyoutChild(villageLocations, "tirmurann", "Tir Murann", "mmp.gotoRoom", 21552)
 Harmony.ui.side.top.addFlyoutChild(villageLocations, "tomacula", "Tomacula", "mmp.gotoRoom", 1502)
+
+local ferryLocation = Harmony.ui.side.top.addChildFlyout(sapienceLocations, "ferryFlyout", "Ferries")
+Harmony.ui.side.top.addFlyoutChild(ferryLocation, "ferryToPolyargos", "Polyargos - To", "mmp.gotoRoom", 6557)
+Harmony.ui.side.top.addFlyoutChild(ferryLocation, "ferryToShalaKhulia", "Shala-Khulia - To", "mmp.gotoRoom", 6557)
+Harmony.ui.side.top.addFlyoutChild(ferryLocation, "ferryToUlangi", "Ulgani - To", "mmp.gotoRoom", 2864)
