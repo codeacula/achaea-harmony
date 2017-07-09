@@ -179,6 +179,33 @@ Harmony.ui.styles.leftBox = [[
     margin-right: 5px;
 ]]
 
+Harmony.ui.styles.tacticActive = [[
+    QLabel{
+        background-color: rgba(11, 146, 34, .7);
+        border-bottom: 1px solid rgba(0, 0, 0, .8);
+        border-right: 1px solid rgba(0, 0, 0, .8);
+        font-family: "Consolas", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    QLabel::hover {
+        background-color: rgba(255, 237, 152, .3);
+        border: 1px solid rgba(255, 237, 152, .5);
+    }
+]]
+
+Harmony.ui.styles.tacticInactive = [[
+    QLabel{
+        background-color: rgba(0, 0, 0, .5);
+        border-bottom: 1px solid rgba(0, 0, 0, .8);
+        border-right: 1px solid rgba(0, 0, 0, .8);
+        font-family: "Consolas", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    QLabel::hover {
+        background-color: rgba(255, 237, 152, .3);
+        border: 1px solid rgba(255, 237, 152, .5);
+        color: black;
+    }
+]]
+
 Harmony.ui.styles.topButton = [[
     QLabel{
         background-color: #043605;
@@ -215,4 +242,3 @@ Harmony.ui.styles.transparent = [[
         background-color: rgba(0, 0, 0, 0);
     }
 ]]
-

@@ -32,29 +32,29 @@ function Harmony.keypad.toggleKeypad()
 	raiseEvent("Harmony.keypadChanged")
 end
 
-Harmony.keypad.processKey = function(key)
+function Harmony.keypad.processKey(key)
     local ks = Harmony.keypad
 
     if not Harmony.keypad.combatMode then
-        send(ks.keysToDirections[key])
+        Harmony.keypad.sendDirection(key)
         return
     end
 
     if not ks.currentTactic then
         Harmony.say(("No tactic set! Sending direction."):format(key))
-        send(ks.keysToDirections[key])
+        Harmony.keypad.sendDirection(key)
         return
     end
 
     if not ks.currentTactic[key] then
         Harmony.say(("Nothing bound to %s for combat, sending direction."):format(key))
-        send(ks.keysToDirections[key])
+        Harmony.keypad.sendDirection(key)
         return
     end
 
     if not Harmony.target.name then
         Harmony.say(("No target set! Sending direction."):format(key))
-        send(ks.keysToDirections[key])
+        Harmony.keypad.sendDirection(key)
         return
     end
 
@@ -74,4 +74,12 @@ Harmony.keypad.processKey = function(key)
     	end
         return
     end
+end
+
+function Harmony.keypad.sendDirection(dir)
+    if dir == "." and keneanung then
+        keneanung.bashing.checkingIH = true
+    end
+
+    send(Harmony.keypad.keysToDirections[dir])
 end

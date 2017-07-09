@@ -46,7 +46,7 @@ function Harmony.ui.callbacks.exploringUpdated(event, what, setting)
         Harmony.ui.settingsWindow.buttons["toggleExploring"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
 end
-registerAnonymousEventHandler("gmcp.Comm.Channel.Text", "Harmony.ui.callbacks.exploringChanged")
+registerAnonymousEventHandler("Harmony.mapper.exploringChanged", "Harmony.ui.callbacks.exploringChanged")
 
 function Harmony.ui.callbacks.printTarget()
     if not Harmony.target.name then return end
@@ -54,6 +54,73 @@ function Harmony.ui.callbacks.printTarget()
     Harmony.ui.side.bottom.console:cecho(("Target: <red>%s<reset> "):format(Harmony.target.name))
 end
 registerAnonymousEventHandler("Harmony.ui.updateBottomBarPre", "Harmony.ui.callbacks.printTarget")
+
+function Harmony.ui.callbacks.raidFollowUpdated()
+    if Harmony.raid.following then
+        Harmony.ui.settingsWindow.buttons["toggleFollowLeader"]:setStyleSheet(Harmony.ui.styles.buttonActive)
+    else
+        Harmony.ui.settingsWindow.buttons["toggleFollowLeader"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
+    end
+end
+registerAnonymousEventHandler("Harmony.raid.followingUpdated", "Harmony.ui.callbacks.raidFollowUpdated")
+
+function Harmony.ui.callbacks.raidLeadUpdated()
+    if Harmony.raid.leading then
+        Harmony.ui.settingsWindow.buttons["toggleCallTarget"]:setStyleSheet(Harmony.ui.styles.buttonActive)
+    else
+        Harmony.ui.settingsWindow.buttons["toggleCallTarget"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
+    end
+end
+registerAnonymousEventHandler("Harmony.raid.leadingUpdated", "Harmony.ui.callbacks.raidLeadUpdated")
+
+function Harmony.ui.callbacks.setupTacticButtons()
+    local row = 0
+    local column = 0
+
+    local height = 30
+
+    for _, tacticGroup in ipairs(Harmony.tactics.regsiteredTactics) do
+        local xpos = 33 * column
+        local ypos = height * row
+
+        local tacticButton = Harmony.ui.label({
+            name = "tacticButton"..tacticGroup.name,
+            x = xpos.."%", y = px(ypos),
+            width = "33%", height = px(height),
+            fgColor = "#ffffff"
+        }, Harmony.ui.side.left.tactics)
+
+        tacticButton:setStyleSheet(Harmony.ui.styles.tacticInactive)
+        tacticButton:echo("<center>"..tacticGroup.name, nil, "8")
+
+        tacticButton:setClickCallback("Harmony.tactics.switchTactic", tacticGroup.name)
+
+        Harmony.ui.side.left.tacticButtons[tacticGroup.name] = tacticButton
+
+        if not Harmony.ui.side.left.currentTacticButton then
+            Harmony.tactics.switchTactic(tacticGroup.name)
+        end
+
+        column = column + 1
+        
+        if column == 3 then
+            row = row + 1
+            column = 0
+        end
+    end
+end
+registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.setupTacticButtons")
+
+function Harmony.ui.callbacks.tacticSwitched(event, name)
+
+    if Harmony.ui.side.left.currentTacticButton then
+        Harmony.ui.side.left.currentTacticButton:setStyleSheet(Harmony.ui.styles.tacticInactive)
+    end
+
+    Harmony.ui.side.left.currentTacticButton = Harmony.ui.side.left.tacticButtons[name]
+    Harmony.ui.side.left.currentTacticButton:setStyleSheet(Harmony.ui.styles.tacticActive)
+end
+registerAnonymousEventHandler("Harmony.tacticSwitched", "Harmony.ui.callbacks.tacticSwitched")
 
 function Harmony.ui.callbacks.toggleBashing()
     keneanung.bashing.toggle("enabled", "Bashing")

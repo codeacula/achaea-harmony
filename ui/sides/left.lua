@@ -29,3 +29,5 @@ Harmony.ui.side.left.target = Harmony.ui.container({
     x = px(0), y = "66%",
     width = "100%", height = "34%"
 }, Harmony.ui.side.left.label)
+
+Harmony.ui.side.left.tacticButtons = {}
