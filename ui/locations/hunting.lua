@@ -1,0 +1,1 @@
+local huntingLocations = Harmony.ui.side.top.addButton("walkToHunting", "Hunting")

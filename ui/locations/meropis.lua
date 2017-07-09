@@ -1,0 +1,1 @@
+local meropisLocations = Harmony.ui.side.top.addButton("walkToMeropis", "Meropis")
