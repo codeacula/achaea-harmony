@@ -76,7 +76,7 @@ function Harmony.ui.side.top.addChild(parent, name, display, callbackName, ...)
     return newChild
 end
 
-function Harmony.ui.side.top.addChildFlyout(parent, name, display)
+function Harmony.ui.side.top.addChildFlyout(parent, name, display, locationID)
     local newChild = parent:addChild({
         name = name, flyOut = true, nestable = true,
         width = px(Harmony.ui.settings.topButtonwidth), height = px(30),
@@ -85,6 +85,10 @@ function Harmony.ui.side.top.addChildFlyout(parent, name, display)
 
     newChild:echo("<center>"..display, nil, "10")
     newChild:setStyleSheet(Harmony.ui.styles.topButtonChild)
+
+    if locationID then
+        newChild:setClickCallback("mmp.gotoRoom", locationID)
+    end
 
     return newChild
 end
