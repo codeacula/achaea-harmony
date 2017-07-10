@@ -90,6 +90,7 @@ Harmony.addCommand("mapping", "har unexplored", "Shows all known unexplored room
 Harmony.addCommand("mapping", "har locked <roomid>", "Marks the provided room id as locked")
 Harmony.addCommand("mapping", "har hide <roomid>", "Puts the provided room id in area -1, effectively hiding it")
 Harmony.addCommand("mapping", "har er", "Looks for the first unvisited, unlocked room by id and tells the mapper to go there")
+Harmony.addCommand("movement", "har sprint", "Toggles on/off keypad sprinting")
 Harmony.addCommand("system", "har", "This. How did you find it??")
 Harmony.addCommand("system", "har chat", "Tries to make Mudlet start accepting GMCP chat")
 Harmony.addCommand("system", "har reset", "Resets and reruns the harmony scripts")

@@ -4,6 +4,7 @@ Harmony.target.rebounding = false
 Harmony.target.shield = false
 
 function Harmony.target.check(name)
+    if not Harmony.target.name then return end
     return string.lower(name) == string.lower(Harmony.target.name)
 end
 

@@ -46,7 +46,7 @@ function Harmony.ui.callbacks.exploringUpdated(event, what, setting)
         Harmony.ui.settingsWindow.buttons["toggleExploring"]:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
 end
-registerAnonymousEventHandler("Harmony.mapper.exploringChanged", "Harmony.ui.callbacks.exploringChanged")
+registerAnonymousEventHandler("Harmony.mapper.exploringChanged", "Harmony.ui.callbacks.exploringUpdated")
 
 function Harmony.ui.callbacks.printTarget()
     if not Harmony.target.name then return end

@@ -39,30 +39,6 @@ function Harmony.ui.side.top.addButton(name, display)
     return newLabel
 end
 
-function Harmony.ui.side.top.addPlainButton(name, display, callback)
-    local xpos = Harmony.ui.settings.border.left
-
-    -- For each button, add some space
-    xpos = xpos + (Harmony.ui.side.top.topButtonCount * (Harmony.ui.settings.topButtonwidth))
-
-    local ypos = 2
-
-    local newLabel = Harmony.ui.label({
-        name = "topLabelParent"..name,
-        x = px(xpos), y = px(ypos),
-        width = px(Harmony.ui.settings.topButtonwidth), height = px(30)
-    });
-
-    newLabel:setStyleSheet(Harmony.ui.styles.topButton)
-    newLabel:setClickCallBack(callback)
-
-    newLabel:echo("<center>"..display, nil, "10")
-
-    Harmony.ui.side.top.topButtonCount = Harmony.ui.side.top.topButtonCount + 1
-
-    return newLabel
-end
-
 function Harmony.ui.side.top.addChild(parent, name, display, callbackName, ...)
     local newChild = parent:addChild({
         name = name, flyOut = true,
@@ -104,6 +80,30 @@ function Harmony.ui.side.top.addFlyoutChild(parent, name, display, callbackName,
     newChild:setStyleSheet(Harmony.ui.styles.topButtonChild)
     newChild:setClickCallback(callbackName, unpack(arg))
     return newChild
+end
+
+function Harmony.ui.side.top.addPlainButton(name, display, callback)
+    local xpos = Harmony.ui.settings.border.left
+
+    -- For each button, add some space
+    xpos = xpos + (Harmony.ui.side.top.topButtonCount * (Harmony.ui.settings.topButtonwidth))
+
+    local ypos = 2
+
+    local newLabel = Harmony.ui.label({
+        name = "topLabelParent"..name,
+        x = px(xpos), y = px(ypos),
+        width = px(Harmony.ui.settings.topButtonwidth), height = px(30)
+    });
+
+    newLabel:setStyleSheet(Harmony.ui.styles.topButton)
+    newLabel:setClickCallBack(callback)
+
+    newLabel:echo("<center>"..display, nil, "10")
+
+    Harmony.ui.side.top.topButtonCount = Harmony.ui.side.top.topButtonCount + 1
+
+    return newLabel
 end
 
 Harmony.ui.side.top.container = Harmony.ui.container({

@@ -174,13 +174,13 @@ Harmony.ui.styles.cityTargossas = [[
 
 Harmony.ui.styles.huntingButton = [[
     QLabel{
-        background-color: rgba(6, 70, 0, .5);
-        border: 1px solid rgba(6, 70, 0, .8);
+        background-color: rgba(6, 70, 0, .7);
+        border: 1px solid rgba(6, 70, 0, .9);
         font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
     QLabel::hover {
-        background-color: rgba(6, 104, 0, .5);
-        border: 1px solid rgba(6, 104, 0, .8);
+        background-color: rgba(6, 104, 0, .7);
+        border: 1px solid rgba(6, 104, 0, .9);
         color: black;
         font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
@@ -235,7 +235,7 @@ Harmony.ui.styles.topButton = [[
 ]]
 
 Harmony.ui.styles.topButtonChild = [[
-    QLabel{
+    QLabel {
         background-color: rgba(0, 0, 0, .8);
         border: 1px solid #080c2f;
         font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;

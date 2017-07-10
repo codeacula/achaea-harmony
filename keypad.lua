@@ -22,6 +22,8 @@ Harmony.keypad.keysToDirections = {
     ["9"] = "ne",
 }
 
+Harmony.keypad.sprint = false
+
 function Harmony.keypad.toggleKeypad()
 	if Harmony.keypad.combatMode then
 		Harmony.say("<yellow>Combat Keypad<reset> turned <red>off.")
@@ -30,6 +32,16 @@ function Harmony.keypad.toggleKeypad()
 	end
 	Harmony.keypad.combatMode = not Harmony.keypad.combatMode
 	raiseEvent("Harmony.keypadChanged")
+end
+
+function Harmony.keypad.toggleSprint()
+    if Harmony.keypad.sprint then
+        Harmony.say("Kepad sprinting turned <red>off.")
+    else
+        Harmony.say("Kepad sprinting turned <green>on.")
+    end
+    Harmony.keypad.sprint = not Harmony.keypad.sprint
+    raiseEvent("Harmony.keypadSprintChanged")
 end
 
 function Harmony.keypad.processKey(key)
@@ -81,5 +93,12 @@ function Harmony.keypad.sendDirection(dir)
         keneanung.bashing.checkingIH = true
     end
 
-    send(Harmony.keypad.keysToDirections[dir])
+    local sendCommands = {}
+
+    if Harmony.keypad.sprint then
+        table.insert(sendCommands, "sprint")
+    end
+
+    table.insert(sendCommands, Harmony.keypad.keysToDirections[dir])
+    send(table.concat(sendCommands, " "))
 end
