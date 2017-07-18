@@ -32,6 +32,29 @@ Harmony.ui.styles.buttonNormal = [[
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 ]]
 
+function Harmony.ui.styles.calculateBackground(from, to, current, max, min)
+    local gaugeStyle = Harmony.ui.styles.gaugeFront
+
+    -- What we'll divide by to get the %
+    local base = max - min
+    local div = current - min
+
+    local r = 0
+    local g = 0
+    local b = 0
+
+    -- Gives us the change
+    local difference = 1 - (div / base)
+
+    -- Calculate current values
+    r = from[1] - math.floor((from[1] - to[1]) * difference)
+    g = from[2] - math.floor((from[2] - to[2]) * difference)
+    b = from[3] - math.floor((from[3] - to[3]) * difference)
+
+    gaugeStyle = gaugeStyle..("background-color: rgba(%s, %s, %s, 1);"):format(r, g, b)
+    return gaugeStyle
+end
+
 Harmony.ui.styles.chatActive = [[
     background-color: #043605;
     border-left: 1px solid black;
@@ -173,10 +196,8 @@ Harmony.ui.styles.cityTargossas = [[
 ]]
 
 Harmony.ui.styles.gaugeFront = [[
-    QLabel{
-        border-radius: 5px
-        font-family: "Consolas", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
+    border-radius: 5px;
+    font-family: "Consolas", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 ]]
 
 Harmony.ui.styles.healthBack = [[

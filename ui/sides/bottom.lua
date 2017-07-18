@@ -29,11 +29,11 @@ Harmony.ui.side.bottom.label:setStyleSheet([[
 ]])
 Harmony.ui.side.bottom.label:show()
 
-Harmony.ui.side.bottom.healthBarFull = { 125, 95, 100 }
-Harmony.ui.side.bottom.healthBarEmpty = { 1, 100, 70 }
+Harmony.ui.side.bottom.healthBarFull = { 13, 255, 33 }
+Harmony.ui.side.bottom.manaBarFull = { 5, 30, 255 }
 
-Harmony.ui.side.bottom.manaBarFull = { 234, 98, 100 }
-Harmony.ui.side.bottom.manaBarEmpty = { 1, 100, 70 }
+Harmony.ui.side.bottom.barWarning = { 255, 235, 13 }
+Harmony.ui.side.bottom.barEmpty = { 178, 3, 0 }
 
 Harmony.ui.side.bottom.healthBar = Harmony.ui.gauge({
     name = "healthBar",
@@ -45,12 +45,17 @@ Harmony.ui.side.bottom.healthBar.back:setStyleSheet(Harmony.ui.styles.healthBack
 
 Harmony.ui.side.bottom.healthBar:setValue(50, 100)
 
+Harmony.ui.side.bottom.healthBar.back:setClickCallback("raiseEvent", "Harmony.healthBarClicked")
+Harmony.ui.side.bottom.healthBar.front:setClickCallback("raiseEvent", "Harmony.healthBarClicked")
+
 Harmony.ui.side.bottom.manaBar = Harmony.ui.gauge({
     name = "manaBar",
     x = "48%", y = "20%",
     width = "45%", height = "70%"
 }, Harmony.ui.side.bottom.label)
 
+Harmony.ui.side.bottom.manaBar.back:setClickCallback("raiseEvent", "Harmony.manaBarClicked")
+Harmony.ui.side.bottom.manaBar.front:setClickCallback("raiseEvent", "Harmony.manaBarClicked")
 Harmony.ui.side.bottom.manaBar.back:setStyleSheet(Harmony.ui.styles.manaBack)
 
 Harmony.ui.side.bottom.manaBar:setValue(50, 100)

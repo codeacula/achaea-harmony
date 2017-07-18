@@ -169,8 +169,22 @@ end
 registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.updateFollowing")
 registerAnonymousEventHandler("Harmony.raid.followingUpdated", "Harmony.ui.callbacks.updateFollowing")
 
+function Harmony.ui.callbacks.updateGauges()
+    Harmony.ui.callbacks.updateHealthBar(svo.stats.currenthealth, svo.stats.maxhealth)
+    Harmony.ui.callbacks.updateManaBar(svo.stats.currentmana, svo.stats.maxmana)
+end
+registerAnonymousEventHandler("svo done with prompt", "Harmony.ui.callbacks.updateGauges")
+
 function Harmony.ui.callbacks.updateHealthBar(current, max)
-    Harmony.ui.side.bottom.healthBar:setValue(current, max)
+
+     
+    if svo.stats.hp > 70 then
+        Harmony.ui.side.bottom.healthBar.front:setStyleSheet(Harmony.ui.styles.calculateBackground(Harmony.ui.side.bottom.healthBarFull, Harmony.ui.side.bottom.barWarning, current, max, max * .7))
+    else
+        Harmony.ui.side.bottom.healthBar.front:setStyleSheet(Harmony.ui.styles.calculateBackground(Harmony.ui.side.bottom.barWarning, Harmony.ui.side.bottom.barEmpty, current, max * .7, 1))
+    end
+
+    Harmony.ui.side.bottom.healthBar:setValue(current, max, "<b><center>"..current.."H</center></b>")
 end
 
 function Harmony.ui.callbacks.updateLeading()
@@ -184,7 +198,13 @@ registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.updateL
 registerAnonymousEventHandler("Harmony.raid.leadingUpdated", "Harmony.ui.callbacks.updateLeading")
 
 function Harmony.ui.callbacks.updateManaBar(current, max)
-    Harmony.ui.side.bottom.manaBar:setValue(current, max)
+    if svo.stats.mp > 70 then
+        Harmony.ui.side.bottom.manaBar.front:setStyleSheet(Harmony.ui.styles.calculateBackground(Harmony.ui.side.bottom.manaBarFull, Harmony.ui.side.bottom.barWarning, current, max, max * .7))
+    else
+        Harmony.ui.side.bottom.manaBar.front:setStyleSheet(Harmony.ui.styles.calculateBackground(Harmony.ui.side.bottom.barWarning, Harmony.ui.side.bottom.barEmpty, current, max * .7, 0))
+    end
+
+    Harmony.ui.side.bottom.manaBar:setValue(current, max, "<b><center><DarkGreen:white>"..current.."M<reset>")
 end
 
 function Harmony.ui.callbacks.updateTopBar()
