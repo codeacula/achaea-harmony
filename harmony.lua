@@ -64,6 +64,10 @@ function Harmony.say(text)
     cecho("\n <WhiteSmoke>|<DarkGreen>Harmony<WhiteSmoke>| <reset>"..text.."\n")
 end
 
+function Harmony.showConfig()
+
+end
+
 function Harmony.turnOnChat()
     gmod.enableModule("harmony", "Comm.Channel")
     sendGMCP("Core.Supports.Add [ \"Comm.Channel 1\" ]")

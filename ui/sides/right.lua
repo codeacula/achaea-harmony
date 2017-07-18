@@ -7,7 +7,7 @@ Harmony.ui.side.right.container = Harmony.ui.container({
 Harmony.ui.side.right.chatContainer = Harmony.ui.container({
     name="chatContainer",
     x = px(0), y = px(0),
-    width = "100%", height = "40%"
+    width = "100%", height = "35%"
 }, Harmony.ui.side.right.container)
 
 Harmony.ui.side.right.chatHeader = Harmony.ui.hbox({
@@ -29,8 +29,8 @@ Harmony.ui.side.right.chatFooter:setStyleSheet([[
 
 Harmony.ui.side.right.mapContainer = Harmony.ui.container({
     name="mapContainer",
-    x = px(0), y = "40%",
-    width = px(Harmony.ui.settings.border.right), height = "60%"
+    x = px(0), y = "35%",
+    width = px(Harmony.ui.settings.border.right), height = "65%"
 }, Harmony.ui.side.right.container)
 
 Harmony.ui.side.right.mapHeader = Harmony.ui.hbox({

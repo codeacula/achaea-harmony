@@ -82,6 +82,8 @@ function Harmony.ui.load()
     Harmony.ui.loadFile("maps.lua")
     Harmony.ui.loadFile("top-buttons.lua")
 
+    Harmony.ui.loadFile("player-status.lua")
+
     if not Harmony.ui.settings.sides.top then
         Harmony.ui.side.top.container:hide()
         setBorderTop(0)

@@ -16,6 +16,14 @@ function Harmony.raid.toggleFollowing()
     raiseEvent("Harmony.raid.followingUpdated", target)
 end
 
+function Harmony.raid.setLeader(name)
+    if not Harmony.raid.following then
+        return
+    end
+    Harmony.raid.leader = name
+    Harmony.say(("Raid leader is now <green>%s<reset>"):format(name))
+end
+
 function Harmony.raid.toggleLeading()
     if Harmony.raid.leading then
         Harmony.announce("I'm no longer calling targets.")

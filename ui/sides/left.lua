@@ -18,14 +18,14 @@ Harmony.ui.side.left.tactics = Harmony.ui.container({
     width = "100%", height = "33%"
 }, Harmony.ui.side.left.label)
 
-Harmony.ui.side.left.self = Harmony.ui.container({
-    name = "selfArea",
+Harmony.ui.side.left.target = Harmony.ui.container({
+    name = "targetArea",
     x = px(0), y = "33%",
     width = "100%", height = "33%"
 }, Harmony.ui.side.left.label)
 
-Harmony.ui.side.left.target = Harmony.ui.container({
-    name = "targetArea",
+Harmony.ui.side.left.self = Harmony.ui.container({
+    name = "selfArea",
     x = px(0), y = "66%",
     width = "100%", height = "34%"
 }, Harmony.ui.side.left.label)

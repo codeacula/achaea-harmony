@@ -172,6 +172,19 @@ Harmony.ui.styles.cityTargossas = [[
     }
 ]]
 
+Harmony.ui.styles.gaugeFront = [[
+    QLabel{
+        border-radius: 5px
+        font-family: "Consolas", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+]]
+
+Harmony.ui.styles.healthBack = [[
+    background: #001c07;
+    border: 2px solid black;
+    border-radius: 9px;
+]]
+
 Harmony.ui.styles.huntingButton = [[
     QLabel{
         background-color: rgba(6, 70, 0, .7);
@@ -186,11 +199,25 @@ Harmony.ui.styles.huntingButton = [[
     }
 ]]
 
+Harmony.ui.styles.infoBox = [[
+    QLabel{
+        background-color: rgba(0, 0, 0, .7);
+        border: 1px solid rgba(0, 0, 0, .8);
+        font-family: "Consolas", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+]]
+
 Harmony.ui.styles.leftBox = [[
     background-color: rgba(0, 0, 0, 0);
     border-right: 1px solid #FFFFFF;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-right: 5px;
+]]
+
+Harmony.ui.styles.manaBack = [[
+    background: #00075c;
+    border: 2px solid black;
+    border-radius: 9px;
 ]]
 
 Harmony.ui.styles.tacticActive = [[

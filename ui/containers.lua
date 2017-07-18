@@ -24,6 +24,12 @@ function Harmony.ui.container(params, parent)
     return Harmony.ui.registerItem(params.name, Geyser.Container:new(params, parent))
 end
 
+function Harmony.ui.gauge(params, parent)
+    if not Harmony.ui.checkName(params.name) then return end
+
+    return Harmony.ui.registerItem(params.name, Geyser.Gauge:new(params, parent))
+end
+
 function Harmony.ui.hbox(params, parent)
     if not Harmony.ui.checkName(params.name) then return end
 

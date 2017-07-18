@@ -130,7 +130,7 @@ function Harmony.ui.callbacks.togglePickup()
     keneanung.bashing.toggle("autopickup", "Pickup")
 end
 
-function Harmony.ui.callbacks.updateBottomBar()
+--[[function Harmony.ui.callbacks.updateBottomBar()
     clearUserWindow("bottomConsole")
 
     Harmony.ui.side.bottom.console:setFontSize(10)
@@ -140,7 +140,7 @@ function Harmony.ui.callbacks.updateBottomBar()
     Harmony.ui.side.bottom.console:cecho(paracelsus_affs_customtag2()) 
 
     raiseEvent("Harmony.ui.updateBottomBarPost")
-end
+end]]--
 
 function Harmony.ui.callbacks.updateChat()
     local text = ansi2decho(gmcp.Comm.Channel.Text.text)
@@ -169,6 +169,10 @@ end
 registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.updateFollowing")
 registerAnonymousEventHandler("Harmony.raid.followingUpdated", "Harmony.ui.callbacks.updateFollowing")
 
+function Harmony.ui.callbacks.updateHealthBar(current, max)
+    Harmony.ui.side.bottom.healthBar:setValue(current, max)
+end
+
 function Harmony.ui.callbacks.updateLeading()
     if Harmony.raid.leading then
         Harmony.ui.settingsWindow.buttons.toggleCallTarget:setStyleSheet(Harmony.ui.styles.buttonActive)
@@ -178,6 +182,10 @@ function Harmony.ui.callbacks.updateLeading()
 end
 registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.updateLeading")
 registerAnonymousEventHandler("Harmony.raid.leadingUpdated", "Harmony.ui.callbacks.updateLeading")
+
+function Harmony.ui.callbacks.updateManaBar(current, max)
+    Harmony.ui.side.bottom.manaBar:setValue(current, max)
+end
 
 function Harmony.ui.callbacks.updateTopBar()
     clearUserWindow("topConsole")
