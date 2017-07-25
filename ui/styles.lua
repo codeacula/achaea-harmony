@@ -224,8 +224,15 @@ Harmony.ui.styles.infoBox = [[
     QLabel{
         background-color: rgba(0, 0, 0, .7);
         border: 1px solid rgba(0, 0, 0, .8);
-        font-family: "Consolas", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 14px;
     }
+]]
+
+Harmony.ui.styles.infoBoxHeader = [[
+    background-color: transparent;
+    border-right: 1px solid white;
+    font-family: "Consolas", "Courier New", monospace;
 ]]
 
 Harmony.ui.styles.leftBox = [[

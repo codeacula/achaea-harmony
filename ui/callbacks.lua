@@ -161,7 +161,7 @@ registerAnonymousEventHandler("gmcp.Comm.Channel.Text", "Harmony.ui.callbacks.up
 
 function Harmony.ui.callbacks.updateFollowing()
     if Harmony.raid.following then
-        Harmony.ui.ettingsWindow.buttons.toggleFollowLeader:setStyleSheet(Harmony.ui.styles.buttonActive)
+        Harmony.ui.settingsWindow.buttons.toggleFollowLeader:setStyleSheet(Harmony.ui.styles.buttonActive)
     else
         Harmony.ui.settingsWindow.buttons.toggleFollowLeader:setStyleSheet(Harmony.ui.styles.buttonInactive)
     end
@@ -176,7 +176,7 @@ end
 registerAnonymousEventHandler("svo done with prompt", "Harmony.ui.callbacks.updateGauges")
 
 function Harmony.ui.callbacks.updateHealthBar(current, max)
-
+    if not svo.stats.hp then return end
      
     if svo.stats.hp > 70 then
         Harmony.ui.side.bottom.healthBar.front:setStyleSheet(Harmony.ui.styles.calculateBackground(Harmony.ui.side.bottom.healthBarFull, Harmony.ui.side.bottom.barWarning, current, max, max * .7))
@@ -198,6 +198,8 @@ registerAnonymousEventHandler("Harmony.ui.loaded", "Harmony.ui.callbacks.updateL
 registerAnonymousEventHandler("Harmony.raid.leadingUpdated", "Harmony.ui.callbacks.updateLeading")
 
 function Harmony.ui.callbacks.updateManaBar(current, max)
+    if not svo.stats.mp then return end
+
     if svo.stats.mp > 70 then
         Harmony.ui.side.bottom.manaBar.front:setStyleSheet(Harmony.ui.styles.calculateBackground(Harmony.ui.side.bottom.manaBarFull, Harmony.ui.side.bottom.barWarning, current, max, max * .7))
     else

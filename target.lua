@@ -16,8 +16,6 @@ function Harmony.target.clear()
         Harmony.announce(("Target Cleared"):format(target))
     end
 
-    Harmony.ui.callbacks.updateBottomBar()
-
     raiseEvent("Harmony.target.changed")
 end
 
@@ -46,8 +44,8 @@ function Harmony.target.processApiData(_, filename)
     local name = playerData.name
     local fullname = playerData.fullname
     local level = playerData.level
-    local city = playerData.city
-    local house = playerData.house
+    local city = playerData.city:gsub("^%l", string.upper)
+    local house = playerData.house:gsub("^%l", string.upper)
     local class = playerData.class
     local xp_rank = playerData.xp_rank
     local dragon
@@ -64,8 +62,8 @@ function Harmony.target.processApiData(_, filename)
         if tonumber(xp_rank) == 0 then xp_rank = -2 end -- unranked shows up as 0
 
         temp_name_list = {{
-            name = name,
-            class = class,
+            name = name:gsub("^%l", string.upper),
+            class = class:gsub("^%l", string.upper),
             dragon = dragon,
             title = fullname,
             level = level,
@@ -82,10 +80,9 @@ function Harmony.target.processApiData(_, filename)
         end
     end
     db:merge_unique(ndb.db.people, temp_name_list)
-
     raiseEvent("NameDB finished honors")
 end
-registerAnonymousEventHandler("sysDownloadError", "Harmony.target.processApiData")
+registerAnonymousEventHandler("sysDownloadDone", "Harmony.target.processApiData")
 
 function Harmony.target.set(name)
     Harmony.target.name = name
@@ -98,7 +95,6 @@ function Harmony.target.set(name)
     -- For svof and stuff
     target = name
 
-    Harmony.ui.callbacks.updateBottomBar()
     Harmony.target.getApiData(name)
     raiseEvent("Harmony.target.changed", name)
 end
