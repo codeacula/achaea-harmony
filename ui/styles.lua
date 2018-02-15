@@ -229,6 +229,13 @@ Harmony.ui.styles.infoBox = [[
     }
 ]]
 
+Harmony.ui.styles.infoBoxFooter = [[
+    background-color: transparent;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    font-family: "Consolas", "Courier New", monospace;
+]]
+
 Harmony.ui.styles.infoBoxHeader = [[
     background-color: transparent;
     border-right: 1px solid white;

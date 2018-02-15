@@ -95,7 +95,7 @@ function Harmony.keypad.sendDirection(dir)
 
     local sendCommands = {}
 
-    if Harmony.keypad.sprint then
+    if Harmony.keypad.sprint and dir ~= "5" then
         table.insert(sendCommands, "sprint")
     end
 

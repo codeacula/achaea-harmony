@@ -83,6 +83,7 @@ function Harmony.ui.load()
     Harmony.ui.loadFile("top-buttons.lua")
 
     Harmony.ui.loadFile("player-status.lua")
+    Harmony.ui.loadFile("target-window.lua")
 
     if not Harmony.ui.settings.sides.top then
         Harmony.ui.side.top.container:hide()
