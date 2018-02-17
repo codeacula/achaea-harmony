@@ -48,7 +48,7 @@ function Harmony.ui.side.top.addChild(parent, name, display, callbackName, ...)
 
     newChild:echo("<center>"..display, nil, "10")
     newChild:setStyleSheet(Harmony.ui.styles.topButtonChild)
-    newChild:setClickCallback(callbackName, unpack(arg))
+    newChild:setClickCallback(callbackName, unpack(arg), nil)
     return newChild
 end
 
@@ -63,7 +63,7 @@ function Harmony.ui.side.top.addChildFlyout(parent, name, display, locationID)
     newChild:setStyleSheet(Harmony.ui.styles.topButtonChild)
 
     if locationID then
-        newChild:setClickCallback("mmp.gotoRoom", locationID)
+        newChild:setClickCallback("mmp.gotoRoom", locationID, nil)
     end
 
     return newChild
@@ -78,7 +78,7 @@ function Harmony.ui.side.top.addFlyoutChild(parent, name, display, callbackName,
 
     newChild:echo("<center>"..display, nil, "10")
     newChild:setStyleSheet(Harmony.ui.styles.topButtonChild)
-    newChild:setClickCallback(callbackName, unpack(arg))
+    newChild:setClickCallback(callbackName, unpack(arg), nil)
     return newChild
 end
 

@@ -36,9 +36,9 @@ end
 
 function Harmony.keypad.toggleSprint()
     if Harmony.keypad.sprint then
-        Harmony.say("Kepad sprinting turned <red>off.")
+        Harmony.say("Keypad sprinting turned <red>off.")
     else
-        Harmony.say("Kepad sprinting turned <green>on.")
+        Harmony.say("Keypad sprinting turned <green>on.")
     end
     Harmony.keypad.sprint = not Harmony.keypad.sprint
     raiseEvent("Harmony.keypadSprintChanged")

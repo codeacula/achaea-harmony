@@ -1,5 +1,8 @@
 # Harmony for Achaea
-The Harmony system meant to add functionality to Mudlet, SVO, and Keneanung's Basher. It is mostly targeted to people new to Achaea, but is also useful to pretty much anyone who wants a nifty 
+
+The Harmony system meant to add functionality to Mudlet, SVO, and Keneanung's Basher. It is mostly targeted to people new to Achaea, but is also useful to pretty much anyone who wants a nifty system or UI.
+
+HarmonyUI requires at least Mudlet 3.7.0. It worked on previous versions, but recent updates have taken advantage of the changes provided between 3.0 and 3.7.
 
 ## Modules
 
