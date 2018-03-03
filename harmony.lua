@@ -1,3 +1,6 @@
+mudlet = mudlet or {}
+mudlet.supports = mudlet.supports or {}
+
 if Harmony then return end
 
 local _sep

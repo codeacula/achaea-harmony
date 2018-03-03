@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE MudletPackage>
-<MudletPackage version="1.000">
+<MudletPackage version="1.001">
     <AliasPackage>
         <AliasGroup isActive="yes" isFolder="yes">
             <name>Harmony</name>
@@ -45,7 +45,7 @@
                 <Alias isActive="yes" isFolder="no">
                     <name>Set theshold</name>
                     <script>if Harmony then
-    Harmony.hunting.setThreshold(matches[2])
+	Harmony.hunting.setThreshold(matches[2])
 end</script>
                     <command></command>
                     <packageName></packageName>
@@ -54,11 +54,18 @@ end</script>
                 <Alias isActive="yes" isFolder="no">
                     <name>Toggle autoattack</name>
                     <script>if Harmony then
-    Harmony.hunting.toggleAutoAttack()
+	Harmony.hunting.toggleAutoAttack()
 end</script>
                     <command></command>
                     <packageName></packageName>
                     <regex>^har autoattack$</regex>
+                </Alias>
+                <Alias isActive="yes" isFolder="no">
+                    <name>bash</name>
+                    <script>keneanung.bashing.attackButton()</script>
+                    <command></command>
+                    <packageName></packageName>
+                    <regex>^bash$</regex>
                 </Alias>
             </AliasGroup>
             <AliasGroup isActive="yes" isFolder="yes">
@@ -86,7 +93,7 @@ end</script>
                     <script>Harmony.mapping.lockRoom(matches[2])</script>
                     <command></command>
                     <packageName></packageName>
-                    <regex>^harmony locked (.*)$</regex>
+                    <regex>^har locked (.*)$</regex>
                 </Alias>
                 <Alias isActive="yes" isFolder="no">
                     <name>explore next room</name>
@@ -110,13 +117,6 @@ end</script>
                     <regex>^har hide (\d+)$</regex>
                 </Alias>
                 <Alias isActive="yes" isFolder="no">
-                    <name>Mark current room</name>
-                    <script>Harmony.mapping.markCurrentRoom(matches[2])</script>
-                    <command></command>
-                    <packageName></packageName>
-                    <regex>^room mark (\w+)$</regex>
-                </Alias>
-                <Alias isActive="yes" isFolder="no">
                     <name>keypad sprint</name>
                     <script>Harmony.keypad.toggleSprint()</script>
                     <command></command>
@@ -135,14 +135,14 @@ end</script>
                     <script>Harmony.ui.toggleBorder(matches[2], matches[3])</script>
                     <command></command>
                     <packageName></packageName>
-                    <regex>^harui (top|bottom|right|left) (on|off)$</regex>
+                    <regex>^harui border (top|bottom|right|left) (on|off)$</regex>
                 </Alias>
                 <Alias isActive="yes" isFolder="no">
                     <name>Adjust border</name>
                     <script>Harmony.ui.setBorder(matches[2], matches[3])</script>
                     <command></command>
                     <packageName></packageName>
-                    <regex>^harui (top|bottom|right|left) (\d+)$</regex>
+                    <regex>^harui border (top|bottom|right|left) (\d+)$</regex>
                 </Alias>
                 <Alias isActive="yes" isFolder="no">
                     <name>Reset UI</name>
@@ -175,9 +175,9 @@ send(&quot;look&quot;)</script>
 -- Loads the script
 local _sep
 if string.char(getMudletHomeDir():byte()) == &quot;/&quot; then 
-    _sep = &quot;/&quot; 
+	_sep = &quot;/&quot; 
 else
-    _sep = &quot;\\&quot; 
+	_sep = &quot;\\&quot; 
 end
 
 local scriptFile = getMudletHomeDir() .. _sep .. &quot;harmony&quot; .. _sep ..&quot;harmony.lua&quot;
@@ -201,6 +201,13 @@ Harmony.turnOnChat()</script>
                 <packageName></packageName>
                 <regex>^har chat$</regex>
             </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>Interactive Setting</name>
+                <script></script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^hconfig$</regex>
+            </Alias>
         </AliasGroup>
     </AliasPackage>
     <KeyPackage>
@@ -222,9 +229,9 @@ Harmony.turnOnChat()</script>
                     <name>0</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;0&quot;)
+	Harmony.keypad.processKey(&quot;0&quot;)
 else
-    send(&quot;map&quot;)
+	send(&quot;map&quot;)
 end</script>
                     <command></command>
                     <keyCode>48</keyCode>
@@ -234,9 +241,9 @@ end</script>
                     <name>1</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;1&quot;)
+	Harmony.keypad.processKey(&quot;1&quot;)
 else
-    send(&quot;sw&quot;)
+	send(&quot;sw&quot;)
 end</script>
                     <command></command>
                     <keyCode>49</keyCode>
@@ -246,9 +253,9 @@ end</script>
                     <name>2</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;2&quot;)
+	Harmony.keypad.processKey(&quot;2&quot;)
 else
-    send(&quot;s&quot;)
+	send(&quot;s&quot;)
 end</script>
                     <command></command>
                     <keyCode>50</keyCode>
@@ -258,9 +265,9 @@ end</script>
                     <name>3</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;3&quot;)
+	Harmony.keypad.processKey(&quot;3&quot;)
 else
-    send(&quot;se&quot;)
+	send(&quot;se&quot;)
 end</script>
                     <command></command>
                     <keyCode>51</keyCode>
@@ -270,9 +277,9 @@ end</script>
                     <name>4</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;4&quot;)
+	Harmony.keypad.processKey(&quot;4&quot;)
 else
-    send(&quot;w&quot;)
+	send(&quot;w&quot;)
 end</script>
                     <command></command>
                     <keyCode>52</keyCode>
@@ -282,9 +289,9 @@ end</script>
                     <name>5</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;5&quot;)
+	Harmony.keypad.processKey(&quot;5&quot;)
 else
-    send(&quot;look&quot;)
+	send(&quot;look&quot;)
 end</script>
                     <command></command>
                     <keyCode>53</keyCode>
@@ -294,9 +301,9 @@ end</script>
                     <name>6</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;6&quot;)
+	Harmony.keypad.processKey(&quot;6&quot;)
 else
-    send(&quot;e&quot;)
+	send(&quot;e&quot;)
 end</script>
                     <command></command>
                     <keyCode>54</keyCode>
@@ -306,9 +313,9 @@ end</script>
                     <name>7</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;7&quot;)
+	Harmony.keypad.processKey(&quot;7&quot;)
 else
-    send(&quot;ne&quot;)
+	send(&quot;ne&quot;)
 end</script>
                     <command></command>
                     <keyCode>55</keyCode>
@@ -318,9 +325,9 @@ end</script>
                     <name>8</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;8&quot;)
+	Harmony.keypad.processKey(&quot;8&quot;)
 else
-    send(&quot;n&quot;)
+	send(&quot;n&quot;)
 end</script>
                     <command></command>
                     <keyCode>56</keyCode>
@@ -330,9 +337,9 @@ end</script>
                     <name>9</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;9&quot;)
+	Harmony.keypad.processKey(&quot;9&quot;)
 else
-    send(&quot;ne&quot;)
+	send(&quot;ne&quot;)
 end</script>
                     <command></command>
                     <keyCode>57</keyCode>
@@ -342,9 +349,9 @@ end</script>
                     <name>/</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;/&quot;)
+	Harmony.keypad.processKey(&quot;/&quot;)
 else
-    send(&quot;in&quot;)
+	send(&quot;in&quot;)
 end</script>
                     <command></command>
                     <keyCode>47</keyCode>
@@ -354,9 +361,9 @@ end</script>
                     <name>*</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;*&quot;)
+	Harmony.keypad.processKey(&quot;*&quot;)
 else
-    send(&quot;out&quot;)
+	send(&quot;out&quot;)
 end</script>
                     <command></command>
                     <keyCode>42</keyCode>
@@ -366,9 +373,9 @@ end</script>
                     <name>-</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;-&quot;)
+	Harmony.keypad.processKey(&quot;-&quot;)
 else
-    send(&quot;up&quot;)
+	send(&quot;up&quot;)
 end</script>
                     <command></command>
                     <keyCode>45</keyCode>
@@ -378,9 +385,9 @@ end</script>
                     <name>+</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;+&quot;)
+	Harmony.keypad.processKey(&quot;+&quot;)
 else
-    send(&quot;down&quot;)
+	send(&quot;down&quot;)
 end</script>
                     <command></command>
                     <keyCode>43</keyCode>
@@ -390,10 +397,10 @@ end</script>
                     <name>.</name>
                     <packageName></packageName>
                     <script>if Harmony then
-    Harmony.keypad.processKey(&quot;.&quot;)
+	Harmony.keypad.processKey(&quot;.&quot;)
 else
-    keneanung.bashing.checkingIH = true
-    send(&quot;ih&quot;)
+	keneanung.bashing.checkingIH = true
+	send(&quot;ih&quot;)
 end</script>
                     <command></command>
                     <keyCode>46</keyCode>
@@ -422,9 +429,9 @@ end</script>
                 <script>-- Loads the script
 local _sep
 if string.char(getMudletHomeDir():byte()) == &quot;/&quot; then 
-    _sep = &quot;/&quot; 
+	_sep = &quot;/&quot; 
 else
-    _sep = &quot;\\&quot; 
+	_sep = &quot;\\&quot; 
 end
 
 local scriptFile = getMudletHomeDir() .. _sep .. &quot;harmony&quot; .. _sep ..&quot;harmony.lua&quot;
@@ -607,7 +614,11 @@ appendBuffer(&quot;wildernessMap&quot;)</script>
                         </regexCodePropertyList>
                         <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="yes" isColorTriggerFg="yes" isColorTriggerBg="yes">
                             <name>On Room Name</name>
-                            <script>if matches[1]:match(gmcp.Room.Info.name) then
+                            <script>local cleanName = matches[1]
+
+cleanName = cleanName:gsub(&quot; (room)&quot;, &quot;&quot;)
+
+if cleanName:match(gmcp.Room.Info.name) then
 	Harmony.ui.maps.capturingWilderness = true
 	clearUserWindow(&quot;wildernessMap&quot;)
 end</script>
@@ -673,6 +684,29 @@ end</script>
                             <colorTriggerBgColor>#000000</colorTriggerBgColor>
                             <regexCodeList>
                                 <string>^Flying above (.*)$</string>
+                            </regexCodeList>
+                            <regexCodePropertyList>
+                                <integer>1</integer>
+                            </regexCodePropertyList>
+                        </Trigger>
+                        <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                            <name>Road</name>
+                            <script>if matches[1]:match(gmcp.Room.Info.name) then
+	Harmony.ui.maps.capturingWilderness = true
+	clearUserWindow(&quot;wildernessMap&quot;)
+end</script>
+                            <triggerType>0</triggerType>
+                            <conditonLineDelta>0</conditonLineDelta>
+                            <mStayOpen>0</mStayOpen>
+                            <mCommand></mCommand>
+                            <packageName></packageName>
+                            <mFgColor>#ff0000</mFgColor>
+                            <mBgColor>#ffff00</mBgColor>
+                            <mSoundFile></mSoundFile>
+                            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                            <regexCodeList>
+                                <string>^.*\(road\)\.$</string>
                             </regexCodeList>
                             <regexCodePropertyList>
                                 <integer>1</integer>

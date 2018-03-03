@@ -1,8 +1,14 @@
 Harmony.mapping = {}
 
 Harmony.mapping.autoExplore = false
+Harmony.mapping.byEnvironment = {}
 Harmony.mapping.dataname = "harmonyExplored"
 Harmony.mapping.exploring = true
+Harmony.mapping.rooms = {}
+Harmony.mapping.settings = {
+    rooms = {}
+}
+Harmony.mapping.settingsFile = "mapper-settings.json"
 Harmony.mapping.walkingTo = nil
 
 -- Clears out the room we're walking to
@@ -14,6 +20,17 @@ function Harmony.mapping.arrived()
 end
 registerAnonymousEventHandler("mmapper arrived", "Harmony.mapping.arrived")
 
+function Harmony.mapping.buildCache()
+    local rooms = getRooms()
+
+    for roomNum, roomName in pairs(rooms) do
+
+
+        coroutine.yield()
+    end
+end
+
+-- When autoexploring, sets up going to the next location
 function Harmony.mapping.exploreNext()
     if Harmony.mapping.autoExplore then
         tempTimer(.5, Harmony.mapping.gotoNextRoom)
@@ -21,11 +38,38 @@ function Harmony.mapping.exploreNext()
 end
 registerAnonymousEventHandler("mmapper arrived", "Harmony.mapping.exploreNext")
 
--- When autoexploring, sets up going to the next location
-function Harmony.mapping.exploreNext()
-    if Harmony.mapping.autoExplore then
-        tempTimer(.5, Harmony.mapping.gotoNextRoom)
+-- Makes a room object for use in the mapper
+function Harmony.mapping.getRoom(roomId)
+    if roomId == nil then return nil end
+
+    roomId = ""..roomId..""
+
+    if Harmony.mapping.settings.rooms[roomId] then
+        return Harmony.mapping.settings.rooms[roomId]
     end
+
+    Harmony.mapping.settings.rooms[roomId] = {
+
+        explored = false,
+        id = roomId,
+        tags = {}
+    }
+
+    return Harmony.mapping.settings.rooms[roomId]
+end
+
+function Harmony.mapping.getSettings()
+    local saveFile = io.open(Harmony.getPath(Harmony.mapping.settingsFile), "r")
+
+    if not saveFile then
+        Harmony.mapping.saveSettings()
+        saveFile = assert(io.open(Harmony.getPath(Harmony.mapping.settingsFile), "r"))
+    end
+
+    local settingString = saveFile:read("*a")
+    saveFile:close()
+
+    Harmony.mapping.settings = yajl.to_value(settingString)
 end
 
 -- Takes us to the next room
@@ -36,7 +80,7 @@ function Harmony.mapping.gotoNextRoom()
 	table.sort(roomList)
 
 	for _, id in pairs(roomList) do
-		if getRoomUserData(id, Harmony.mapping.dataname) == "" and not roomLocked(id) and mmp.getPath(mmp.currentroom, id) then
+		if not Harmony.mapping.haveExploredRoom(id) and not roomLocked(id) and mmp.getPath(mmp.currentroom, id) then
 			Harmony.say(string.format("Going to %s (%s)", getRoomName(id), id))
 			Harmony.mapping.walkingTo = id
 			mmp.gotoRoom(id)
@@ -48,40 +92,22 @@ function Harmony.mapping.gotoNextRoom()
 	return
 end
 
+-- Checks to see if we explored the provided room ID
+function Harmony.mapping.haveExploredRoom(roomId)
+    local room = Harmony.mapping.getRoom(roomId)
+    return room.explored == true
+end
+
 -- Marks a room as locked
 function Harmony.mapping.lockRoom(id)
 	lockRoom(id, true)
-	Harmony.say(string.format("Locked %s (%s)", getRoomName(id), id))
+	Harmony.say(string.format("Locked %s (%s)", getRoomName(id) or "(Unknown)", id))
 end
 
--- Marks the room we're currently in
-function Harmony.mapping.markCurrentRoom(mark)
-    -- Apparently the mapper keeps all the marks in a single room
-    -- So, I copied this code from the alias
-
-    local tmp = getRoomUserData(1, "gotoMapping")
-    local maptable = {}
-
-    if tmp ~= "" then
-      maptable = yajl.to_value(tmp)
-    end
-
-    local location, markname = mmp.currentroom, mark
-
-    -- can't allow mark name to ne a number - yajl then generates a giant table of null's
-    if tonumber(markname) then
-      mmp.echo("The mark name can't be a number.") return
-    end
-
-    maptable[markname] = location
-    local tmp2 = yajl.to_string(maptable)
-
-    if not mmp.roomexists(1) then
-      addRoom(1)
-    end
-
-    setRoomUserData(1, "gotoMapping", tmp2)
-    mmp.echo(string.format("Room mark for '%s' set to room %s.", markname, location))
+function Harmony.mapping.markExplored(roomId)
+    local room = Harmony.mapping.getRoom(roomId)
+    room.explored = true
+    Harmony.mapping.saveSettings()
 end
 
 -- Shows us all the unexplored rooms in the area
@@ -92,7 +118,7 @@ function Harmony.mapping.printUnexploredRooms()
     local unexploredRooms = {}
 
 	for _, id in pairs(roomList) do
-		if getRoomUserData(id, Harmony.mapping.dataname) == "" then
+		if not Harmony.mapping.haveExploredRoom(id) then
 			table.insert(unexploredRooms, { id = id, name = getRoomName(id)})
 		end
 	end
@@ -101,8 +127,6 @@ function Harmony.mapping.printUnexploredRooms()
     for _, i in ipairs(unexploredRooms) do
         cecho(string.format("<yellow>%s<reset> - <pink>%s\n", i.id, i.name))
     end
-
-    Harmony.mapping.saveData()
 end
 
 -- Locks a room when we are autowalking and the door is locked
@@ -112,6 +136,14 @@ function Harmony.mapping.roomLocked()
 		Harmony.mapping.walkingTo = nil
 		return
 	end
+end
+
+-- Save the current map settings to 
+function Harmony.mapping.saveSettings()
+    local saveFile = assert(io.open(Harmony.getPath(Harmony.mapping.settingsFile), "w+"))
+    saveFile:write(yajl.to_string(Harmony.mapping.settings))
+    saveFile:flush()
+    saveFile:close()
 end
 
 -- Turns on/off auto-exploration
@@ -141,11 +173,28 @@ end
 
 -- Updates the room as being visited
 function Harmony.mapping.updateRoom()
-    if not Harmony.mapping.exploring then return end
 
-    if getRoomUserData(gmcp.Room.Info.num, Harmony.mapping.dataname) ~= "" then return end
+    -- Update the environment
+    local currentRoom = Harmony.mapping.getRoom(gmcp.Room.Info.num)
 
-    setRoomUserData(gmcp.Room.Info.num, Harmony.mapping.dataname, "1")
-    Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
+    currentRoom.environment = gmcp.Room.Info.environment or ""
+
+    if Harmony.mapping.exploring and not Harmony.mapping.haveExploredRoom(gmcp.Room.Info.num) then
+        Harmony.mapping.markExplored(gmcp.Room.Info.num)
+        
+        Harmony.say(string.format("Explored %s (%s)", gmcp.Room.Info.name, gmcp.Room.Info.num))
+    end
+    Harmony.mapping.saveSettings()
 end
 registerAnonymousEventHandler("gmcp.Room.Info", "Harmony.mapping.updateRoom")
+
+-- Load the settings
+Harmony.mapping.getSettings()
+
+local cacheCoroutine = cacheCoroutine or coroutine.create(Harmony.mapping.buildCache)
+
+local continueProcessing = coroutine.resume(cacheCoroutine)
+
+while continueProcessing do
+    continueProcessing = coroutine.resume(cacheCoroutine)
+end
